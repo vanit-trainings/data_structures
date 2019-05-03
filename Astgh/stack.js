@@ -50,11 +50,11 @@ stack.prototype.size = function() {
 	return this.length;
 }
 
-stack.prototype.isEmpty = function(anyStack) {
+stack.prototype.isEmpty = function() {
 	return this.length === 0;
 }
 
-stack.prototype.print = function(anyStack) {
+stack.prototype.print = function() {
 	if (this.length !== 0) {
 		let tnode = this.last;
 		for (let i = 0; i < this.length; ++i) {

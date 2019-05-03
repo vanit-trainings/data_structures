@@ -37,7 +37,7 @@ list.prototype.push_back = function (val) {
 }
 
 list.prototype.insert = function (val, index) {
-	if (index <= this.length || index >= 0) {
+	if (index < this.length || index >= 0) {
 		let newNode = new node(val);
 		let tnode = this.first;
 		if (index === this.length - 1) {
@@ -69,8 +69,7 @@ list.prototype.pop_front = function () {
 	} else {
 		this.first = firstNode.next;
 		this.first.prev = null;
-		firstNode.next = null;
-		firstNode.value = null;
+		firstNode = null;
 	}
 	this.length--;
 	return val;
@@ -88,8 +87,7 @@ list.prototype.pop_back = function () {
 	else {
 		this.last = lastNode.prev;
 		this.last.next = null;
-		lastNode.prev = null;
-		lastNode.value = null;
+		lastNode = null;
 	}
 	this.length--;
 	return val;
@@ -107,10 +105,10 @@ list.prototype.remove = function (index) {
 		}
 	else {
 		let tnode = this.first;
-		let val = tnode.value;
 		for (let i = 0; i < index; ++i) {
 			tnode = tnode.next;
 		}
+		let val = tnode.value;
 		tnode.next.prev = tnode.prev;
 		tnode.prev.next = tnode.next;
 		tnode.prev = null;
