@@ -1,27 +1,27 @@
-var node = function(val){
+var node = function(val) {
 	this.prev = null;
 	this.value = val;
 }
 
-var stack = function(){
+var stack = function() {
 	this.length = 0;
 	this.last = null;
 }
 
-stack.prototype.push = function(data){
-	var n = new node(data);
-	if(this.length === 0){
+stack.prototype.push = function(data) {
+	let n = new node(data);
+	if (this.length === 0) {
         n.prev = this.last;
 		this.last = n;
 	}
-	else{
+	else {
 		n.prev = this.last;
 		this.last = n;
 	}
 	this.length++;
 }
 
-stack.prototype.pop = function(){
+stack.prototype.pop = function() {
     if (this.length > 0) {
         let n = this.last;
         let val = n.value;    
@@ -36,21 +36,23 @@ stack.prototype.pop = function(){
     }
 }
 
-stack.prototype.isEmpty = function(){
+stack.prototype.isEmpty = function() {
 	return !(this.length > 0);
 }
 
-stack.prototype.print = function(){
-	let n = this.last;
-	while(n !== null){
-        console.log(n.value);
-		n = n.prev;
+stack.prototype.print = function() {
+    if (this.length > 0) {
+	    let n = this.last;
+	    while (n !== null) {
+            console.log(n.value);
+	    	n = n.prev;
+        }
     }
 }
 
-stack.prototype.clear = function(){
+stack.prototype.clear = function() {
     let n = this.last
-    while(n !== null){
+    while (n !== null) {
         n = n.prev;
         this.pop();
     }
