@@ -167,6 +167,11 @@ list.prototype.clear = function() {
         this.remove(0);
     }
 }
+
+list.prototype.size = function() {
+    return this.length;
+}
+
 var d = new list();
 d.push_back(1);
 d.push_back(2);
