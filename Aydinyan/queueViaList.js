@@ -167,19 +167,69 @@ list.prototype.clear = function() {
         this.remove(0);
     }
 }
-var d = new list();
-d.push_back(1);
-d.push_back(2);
-d.push_back(3);
-d.push_back(4);
-d.print();
-console.log(d.length);
-d.remove(4);
-d.print();
-d.insert(333, 4);
-d.print();
-console.log(d.isEmpty());
-console.log(d.first.value);
-d.clear();
-console.log(d.print());
-console.log(d.isEmpty());
+
+list.prototype.size = function() {
+    return this.length;
+}
+
+let queue = function() {
+    this.l = new list();
+}
+
+queue.prototype.size = function() {
+    return this.l.size();
+}
+
+queue.prototype.push = function(data) {
+    this.l.push_back(data);
+}
+
+queue.prototype.pop = function() {
+    if (this.l.size() > 0) {
+        this.l.pop_front();
+    }
+}
+
+queue.prototype.top = function() {
+    if (this.l.size() > 0) {
+        return this.l.first.value;
+    }
+    return ;
+}
+
+queue.prototype.print = function() {
+    let n = this.l.first;
+    while (n !== null) {
+        console.log(n.value);
+        n = n.next;
+    }
+}
+
+queue.prototype.isEmpty = function() {
+    return !(this.l.size() > 0);
+}
+
+queue.prototype.clear = function() {
+    this.l.clear();
+}
+
+let q = new queue();
+
+q.push(1);
+q.push(2);
+q.push(3);
+q.push(4);
+q.push(5);
+q.print();
+q.pop();
+console.log('size = ' + q.size());
+q.print();
+console.log(q.top());
+console.log(q.isEmpty());
+q.print();
+q.clear();
+console.log(q.isEmpty());
+q.print();
+console.log(q.top());
+q.pop();
+console.log('size = ' + q.size());
