@@ -62,6 +62,10 @@ stack.prototype.top = function() {
     return this.last.value;
 }
 
+stack.prototype.size = function() {
+    return this.length;
+}
+
 let s = new stack();
 s.push(12);
 s.push(1);
