@@ -170,3 +170,6 @@ console.log(q.isEmpty());
 q.clear();
 console.log(q.isEmpty());
 q.print();
+console.log(q.top());
+q.pop();
+console.log(q.size());
