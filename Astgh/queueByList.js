@@ -37,7 +37,7 @@ list.prototype.push_back = function (val) {
 }
 
 list.prototype.insert = function (val, index) {
-	if (index < this.length || index >= 0) {
+	if (index < this.length && index >= 0) {
 		let newNode = new node(val);
 		let tnode = this.first;
 		if (index === this.length - 1) {
