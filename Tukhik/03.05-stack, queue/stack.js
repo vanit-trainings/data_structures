@@ -1,34 +1,38 @@
-'use strict';
-
 class Stack {
-  constructor() {
-    this.last = null;
-  }
-  push(item) {
-    const prev = this.last;
-    const element = { prev, item };
-    this.last = element;
-  }
-  pop() {
-    const element = this.last;
-    if (!element) return null;
-    this.last = element.prev;
-    return element.item;
-  }
+	constructor() {
+	this.storage = {};
+	this.size = 0;
+	}
+	
+	push(element) {
+		this.size++;
+		this.storage[this.size] = element;
+	}
+	
+	pop(element) {
+		let removed = this.storage[this.size];
+		delete this.storage[this.size];
+		this.size--;
+		return removed;
+	}
+	peek() {
+		return this.storage[this.size];
+	}
 }
 
-// Usage
+const stack = new Stack();
 
-const obj1 = { name: 'first' };
-const obj2 = { name: 'second' };
-const obj3 = { name: 'third' };
+stack.push('dog');
+stack.push('bear');
+stack.push('cat');
+stack.push('bear');
+stack.push('bear');
+stack.push('bear');
 
-const list = new Stack();
-list.push(obj1);
-list.push(obj2);
-list.push(obj3);
+console.log(stack.peek());
 
-console.dir(list.pop());
-console.dir(list.pop());
-console.dir(list.pop());
-console.dir(list.pop());
+stack.pop();
+stack.pop();
+
+console.log(stack.peek());
+console.log(stack);

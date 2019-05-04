@@ -1,46 +1,30 @@
-'use strict';
-
 class Queue {
   constructor() {
-    this.first = null;
-    this.last = null;
+	this.storage = {};
+    this.head = null;
+    this.tail = null;
   }
-  put(item) {
-    const last = this.last;
-    const element = { next: null, item };
-    if (last) {
-      last.next = element;
-      this.last = element;
-    } else {
-      this.first = element;
-      this.last = element;
-    }
+  
+  enqueue(element) {
+	  this.storage[this.tail] = element;
+	  this.tail++;
   }
-  pick() {
-    const element = this.first;
-    if (!element) return null;
-    if (this.last === element) {
-      this.first = null;
-      this.last = null;
-    } else {
-      this.first = element.next;
-    }
-    return element.item;
+  
+  dequeue() {
+	  let removed = this.storage[this.head];
+	  delete this.storage[this.head];
+	  this.head++;
+	  return removed;
   }
 }
-
-// Usage
-
-const obj1 = { name: 'first' };
-const obj2 = { name: 'second' };
-const obj3 = { name: 'third' };
-
 const queue = new Queue();
-queue.put(obj1);
-queue.put(obj2);
-queue.put(obj3);
-
-console.dir(queue.pick());
-console.dir(queue.pick());
-console.dir(queue.pick());
-console.dir(queue.pick());
+  
+queue.enqueue('dog');
+queue.enqueue('pig');
+queue.enqueue('cat');
+queue.enqueue('bear');
+  
+queue.dequeue();
+  
+console.log(queue);
+  
