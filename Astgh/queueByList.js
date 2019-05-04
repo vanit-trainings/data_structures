@@ -113,9 +113,7 @@ list.prototype.remove = function (index) {
 		let val = tnode.value;
 		tnode.next.prev = tnode.prev;
 		tnode.prev.next = tnode.next;
-		tnode.prev = null;
-		tnode.next = null;
-		tnode.value = null;
+		tnode = null;
 		this.length--;
 		return val;
 	}

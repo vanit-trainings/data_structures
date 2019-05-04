@@ -1,6 +1,6 @@
 var node = function (val) {
 	this.prev = null;
-	this.value = 0;
+	this.value = val;
 }
 
 var stack = function () {
@@ -20,7 +20,9 @@ stack.prototype.push = function (val) {
 }
 
 stack.prototype.top = function () {
-	return this.last.value;
+	if (!isEmpty()) {
+		return this.last.value;
+	}
 }
 
 stack.prototype.pop = function () {
@@ -129,19 +131,3 @@ queue.prototype.print = function () {
 		this.container2.push(tnode);
 	}
 }
-
-let q = new queue();
-q.push(1);
-q.push(2);
-q.push(3);
-q.print()
-q.pop();
-q.print();
-q.push(4);
-q.print()
-console.log(q.isEmpty());
-q.clear();
-console.log(q.isEmpty());
-q.push(5);
-q.print();
-console.log(q.size());

@@ -3,7 +3,7 @@ var node = function(val) {
 	this.value = val;
 }
 
-var stack = function(val) {
+var stack = function() {
 	this.last = null;
 	this.length = 0;
 }
