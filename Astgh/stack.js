@@ -1,73 +1,65 @@
-const list = require('../Astgh/list.js');
-
 var node = function(val) {
-    this.prev = null;
-    this.value = val;
+	this.prev = null;
+	this.value = val;
 }
 
 var stack = function(val) {
-    this.last = null;
-    this.length = 0;
+	this.last = null;
+	this.length = 0;
 }
 
 stack.prototype.push = function(val) {
-    let newNode = new node(val);
-    if (this.length !== 0) {
-        newNode.prev = this.last;
-        this.last = newNode;
-    } else {
-        newNode.prev = null;
-        this.last = newNode;
-    }
-    this.length++;
+	let newNode = new node(val);
+	if (this.length !== 0) {
+		newNode.prev = this.last;
+		this.last = newNode;
+	} else {
+		newNode.prev = null;
+		this.last = newNode;
+	}
+	this.length++;
 }
 
-stack.prototype.top = function(anyStack) {
-    if (this.length === 0) {
-        return;
-    } else {
-        return this.last.value;
-    }   
+stack.prototype.top = function() {
+	return this.last.value;
 }
 
-stack.prototype.pop = function(anyStack) {
-    if (this.length === 0) {
-        return;
-    } else {
-        let val = this.last.value;
-        this.last = this.last.prev;
-        this.length--;
-        return val;
-    }
+stack.prototype.pop = function() {
+	if (this.length === 0) {
+		return;
+	} else {
+		let tnode = this.last;
+		let val = tnode.value;
+		this.last = tnode.prev;
+		tnode.prev = null;
+		tnode.value = null;
+		this.length--;
+		return val;
+	}
 }
 
-stack.prototype.clear = function(anyStack) {
-    if (this.length !== 0) {
-        let tnode = this.last;
-        while (this.length !== 0) {
-            this.last = this.last.prev;
-            this.prev = null;
-            this.value = null;
-            tnode = tnode.prev;
-            this.length--;
-        }
-    }
+stack.prototype.clear = function() {
+	let tnode = this.last;
+	while (this.length !== 0) {
+		tnode = tnode.prev;
+		this.pop();
+	}
 }
 
-stack.prototype.isEmpty = function(anyStack) {
-    if (this.length === 0) {
-        return true;
-    } else {
-        return false;
-    }   
+stack.prototype.size = function() {
+	return this.length;
 }
 
-stack.prototype.print = function(anyStack) {
-    if (this.length !== 0) {
-        let tnode = this.last;
-        for (let i = 0; i < this.length; ++i) {
-            console.log(tnode.value);
-            tnode = tnode.prev;
-        }
-    }
+stack.prototype.isEmpty = function() {
+	return this.length === 0;
+}
+
+stack.prototype.print = function() {
+	if (this.length !== 0) {
+		let tnode = this.last;
+		for (let i = 0; i < this.length; ++i) {
+			console.log(tnode.value);
+			tnode = tnode.prev;
+		}
+	}
 }

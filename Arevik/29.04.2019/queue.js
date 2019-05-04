@@ -1,50 +1,51 @@
-'use strict';
-
-class Queue {
-  constructor() {
-    this.first = null;
-    this.last = null;
+class Queue{
+  constructor(...items){
+    //initialize the items in queue
+    this._items = []
+    // enqueuing the items passed to the constructor
+    this.enqueue(...items)
   }
-  put(item) {
-    const last = this.last;
-    const element = { next: null, item };
-    if (last) {
-      last.next = element;
-      this.last = element;
-    } else {
-      this.first = element;
-      this.last = element;
-    }
-  }
-  pick() {
-    const element = this.first;
-    if (!element) return null;
-    if (this.last === element) {
-      this.first = null;
-      this.last = null;
-    } else {
-      this.first = element.next;
-    }
-    return element.item;
-  }
-}
-
-// Usage
-
-const obj1 = { name: 'first' };
-const obj2 = { name: 'second' };
-const obj3 = { name: 'third' };
-const obj4 = { name: 'fourth' };
-const obj5 = { name: 'fifth' };
-
-const queue = new Queue();
-queue.put(obj1);
-queue.put(obj2);
-queue.put(obj3);
-queue.put(obj4);
-queue.put(obj5);
-
-console.log(queue.pick());
-console.log(queue.pick());
-console.log(queue.pick());
-console.log(queue);
+ 
+   enqueue(...items){
+     //push items into the queue
+     items.forEach( item => this._items.push(item) )
+     return this._items;
+   }
+ 
+   dequeue(count=1){
+     //pull out the first item from the queue
+     this._items.splice(0,count);
+     return this._items;
+   }
+ 
+   peek(){
+     //peek at the first item from the queue
+     return this._items[0]
+   }
+ 
+   size(){
+     //get the length of queue
+     return this._items.length
+   }
+ 
+   isEmpty(){
+     //find whether the queue is empty or no
+     return this._items.length===0
+   }
+ }
+ 
+ 
+ let my_queue = new Queue(1,24,4);
+ // [1, 24, 4]
+ console.log(my_queue.enqueue(23));
+ //[1, 24, 4, 23]
+ console.log(my_queue.enqueue(1,2,342));
+ //[1, 24, 4, 23, 1, 2, 342]
+ console.log(my_queue.dequeue());
+ //[24, 4, 23, 1, 2, 342]
+ console.log(my_queue.dequeue(3));
+ //[1, 2, 342]
+ console.log(my_queue.isEmpty());
+ // false
+ console.log(my_queue.size());
+ //3
