@@ -1,44 +1,65 @@
-import 'list.dart';
-
-class queue {
-
-  queue() {
-    _container = new list();
+class node {
+  node(value) {
+    _prev = null;
+    _value = value;
   }
 
-  dynamic push(var value) {
-    _container.pushBack(value);
+  node _prev;
+  var _value;
+}
+
+class queue {
+  queue() {
+    _tale = null;
+    _vertex = null;
+    _length = 0;
+  }
+
+  void push(var value) {
+    node tmp = node(value);
+    if (isEmpty()) {
+      _vertex = tmp;
+      _tale = tmp;
+    } else {
+      _tale._prev = tmp;
+      _tale = tmp;
+    }
+    _length++;
   }
 
   dynamic pop() {
-    if(isEmpty()) {
+    if (isEmpty()) {
       return null;
     }
-    var rm = _container.vertex.value;
-    _container.remove(0);
-    return rm;
+    var val = _vertex._value;
+    _vertex = _vertex._prev;
+    _length--;
+    return val;
   }
 
   dynamic top() {
-    if(isEmpty()) {
-      return null;
-    }
-    return _container.vertex.value;
+    return isEmpty() ? null : _vertex._value;
   }
 
   void erase() {
-    if(!isEmpty()) {
-      _container.clear();
-    }
+    _vertex = null;
+    _tale = null;
+    _length = 0;
   }
 
   bool isEmpty() {
-    return _container.length <= 0;
+    return _length == 0;
   }
 
-  void print() {
-    _container.printFront();
+  void printAll() {
+    node tmp = _vertex;
+    while (tmp != null) {
+      print(tmp._value);
+      tmp = tmp._prev;
+    }
   }
 
-  list _container;
+  node _tale;
+  node _vertex;
+  int _length;
 }

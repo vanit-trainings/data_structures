@@ -1,47 +1,61 @@
-import 'list.dart';
+class node {
+  node(value) {
+    _prev = null;
+    _value = value;
+  }
+
+  node _prev;
+  var _value;
+}
 
 class stack {
   stack() {
-    _container = new list();
+    _vertex = null;
+    _length = 0;
   }
 
-  void push(value) {
-    _container.pushBack(value);
-  }
-
-  dynamic top() {
-    if (!_container.isEmpty()) {
-      return _container.tale.value;
+  void push(var value) {
+    node tmp = node(value);
+    if (isEmpty()) {
+      _vertex = tmp;
+    } else {
+      tmp._prev = _vertex;
+      _vertex = tmp;
     }
-    return null;
+    _length++;
   }
 
   dynamic pop() {
-    if (!_container.isEmpty()) {
-      var rm = _container.tale.value;
-      _container.remove(_container.length - 1);
-      return rm;
+    if (isEmpty()) {
+      return null;
     }
-    return null;
+    var val = _vertex._value;
+    _vertex = _vertex._prev;
+    _length--;
+    return val;
   }
 
-  void clear() {
-    if(!isEmpty()) {
-    _container.clear();
-    }
+  dynamic top() {
+    return isEmpty() ? null : _vertex._value;
+  }
+
+  void erase() {
+    _vertex = null;
+    _length = 0;
   }
 
   bool isEmpty() {
-    return _container.isEmpty();
+    return _length == 0;
   }
 
-  void printBack() {
-    _container.printBack();
+  void printAll() {
+    node tmp = _vertex;
+    while (tmp != null) {
+      print(tmp._value);
+      tmp = tmp._prev;
+    }
   }
 
-  void printFront() {
-    _container.printFront();
-  }
-
-  list _container;
+  node _vertex;
+  int _length;
 }
