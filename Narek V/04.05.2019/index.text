@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    function Stack() {
+      var stack = [];
+
+
+      this.push = function(element) {
+        stack.push(element);
+      }
+
+      this.print = function() {
+        console.log(stack);
+      }
+
+      this.pop = function() {
+        return stack.shift();
+      }
+
+      this.isEmpty = function() {
+        return !stack.length;
+      }
+    }
+
+
+    var st = new Stack();
+    st.push(5);
+
+
+</script>
+</body>
+</html>
