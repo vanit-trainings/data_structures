@@ -1,7 +1,7 @@
-var node = function (val) {
-	this.prev = null;
-	this.next = null;
+var node = function (val, n = null, p = null) {
 	this.value = val;
+	this.next = n;
+	this.prev = p;
 }
 
 var list = function () {
@@ -11,66 +11,42 @@ var list = function () {
 }
 
 list.prototype.push_front = function (val) {
-	let newNode = new node(val);
-	if (this.first === null && this.last === null) {
-		this.first = newNode;
-		this.last = newNode;
-	} else {
-		newNode.next = this.first;
-		this.first.prev = newNode;
-		this.first = newNode;
+	this.first = new node(val, this.first) 
+	if (isEmpty()) {
+		this.last = this.first;
 	}
 	this.length++;
 }
 
 list.prototype.push_back = function (val) {
-	let newNode = new node(val);
-	if (this.first === null && this.last === null) {
-		this.first = newNode;
-		this.last = newNode;
-	} else {
-		newNode.prev = this.last;
-		this.last.next = newNode;
-		this.last = newNode;
+	this.last = new node(val, null, this.last);
+	if (isEmpty()) {
+		this.first = this.last;
 	}
 	this.length++;
 }
 
 list.prototype.insert = function (val, index) {
-	if (index < this.length && index >= 0) {
-		let newNode = new node(val);
-		let tnode = this.first;
-		if (index === this.length - 1) {
-			this.push_back(val);
-		} else
-			if (index === 0) {
-				this.push_front(val);
-			} else {
-				for (let i = 0; i < index; ++i) {
-					tnode = tnode.next;
-				}
-				tnode.next.prev = newNode;
-				newNode.next = tnode.next;
-				tnode.next = newNode;
-				newNode.prev = tnode;
-			}
-		this.length++;
+	let n = this.find(index);
+	if (n === undefined) {
+		return;
 	}
+	let np = n.next;
+	n.next = new node(val, n.next, n);
+	np.prev = n.next;
+	this.length++;
 }
 
 list.prototype.pop_front = function () {
-	let firstNode = this.first;
-	let val = firstNode.value;
-	if (this.length === 0) {
+	if (isEmpty()) {
 		return;
-	} 
-	if (this.length === 1){
-		this.first = null;
-		this.last = null;
-	} else {
-		this.first = firstNode.next;
+	}
+	let val = this.first.value;
+	this.first = this.first.next;
+	if (this.first !== null) {
 		this.first.prev = null;
-		firstNode = null;
+	} else {//case when 1 element.
+		this.last = null;
 	}
 	this.length--;
 	return val;
@@ -85,8 +61,7 @@ list.prototype.pop_back = function () {
 	if (this.length === 1) {
 		this.first = null;
 		this.last = null;
-	}
-	else {
+	} else {
 		this.last = lastNode.prev;
 		this.last.next = null;
 		lastNode = null;
@@ -95,7 +70,19 @@ list.prototype.pop_back = function () {
 	return val;
 }
 
+list.prototype.find = function (index) {
+	if (index >= this.length || index < 0) {
+		return;
+	}
+	let tmp = this.first;
+	for (let i = 0; i < index; i++) {
+		tmp = tmp.next;
+	}
+	return tmp;
+}
+
 list.prototype.remove = function (index) {
+
 	if (index > this.length - 1 || index < 0) {
 		return;
 	}
@@ -130,21 +117,15 @@ list.prototype.size = function () {
 }
 
 list.prototype.print = function () {
-	if (this.length !== 0) {
-		let tnode = this.first;
-		while (tnode !== null) {
-			console.log(tnode.value);
-			tnode = tnode.next;
-		}
+	let tnode = this.first;
+	while (tnode !== null) {
+		console.log(tnode.value);
+		tnode = tnode.next;
 	}
 }
 
 list.prototype.clear = function () {
-	if (this.length !== 0) {
-		let tnode = this.first;
-		while (tnode !== null) {
-			tnode = tnode.next;
-			this.remove(0);
-		}
-	}
+	this.first = null;
+	this.last = null;
+	this.length = 0;
 }
