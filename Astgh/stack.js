@@ -14,7 +14,6 @@ stack.prototype.push = function(val) {
 		newNode.prev = this.last;
 		this.last = newNode;
 	} else {
-		newNode.prev = null;
 		this.last = newNode;
 	}
 	this.length++;
@@ -27,15 +26,12 @@ stack.prototype.top = function() {
 stack.prototype.pop = function() {
 	if (this.length === 0) {
 		return;
-	} else {
-		let tnode = this.last;
-		let val = tnode.value;
-		this.last = tnode.prev;
-		tnode.prev = null;
-		tnode.value = null;
-		this.length--;
-		return val;
-	}
+	} 
+	let tnode = this.last;
+	let val = tnode.value;
+	this.last = tnode.prev;
+	this.length--;
+	return val;
 }
 
 stack.prototype.clear = function() {

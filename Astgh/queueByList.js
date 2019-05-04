@@ -148,3 +148,37 @@ list.prototype.clear = function () {
 		}
 	}
 }
+
+var queue = function() {
+    this.container = new list();
+}
+
+queue.prototype.push = function(val) {
+    this.container.push_back(val);
+}
+
+queue.prototype.pop = function() {
+    if (this.container.length !== 0) {
+        this.container.pop_front();
+    }
+}
+
+queue.prototype.clear = function() {
+    this.container.clear();
+}
+
+queue.prototype.size = function() {
+    return this.container.size();
+}
+
+queue.prototype.isEmpty = function() {
+    return this.container.size() === 0;
+}
+
+queue.prototype.print = function() {
+    let tnode = this.container.first;
+    while (tnode !== null) {
+        console.log(tnode.value);
+        tnode = tnode.next;
+    }
+}
