@@ -96,7 +96,7 @@ list.prototype.pop_back = function () {
 }
 
 list.prototype.remove = function (index) {
-	if (index > this.length - 1 || index < 0) {
+	if (index > this.length - 1 && index < 0) {
 		return;
 	}
 	if (index === this.length - 1) {
