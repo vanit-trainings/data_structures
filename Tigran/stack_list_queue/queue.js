@@ -1,32 +1,39 @@
 class Queue {
     constructor() {
-        this.first = null;
-        this.size = 0;
+        this._first = null;
+        this._size = 0;
     }
     enqueue(data){
-        let newNode = {};
-        newNode.data = data;
-        newNode.next = null;
-        if (this.first === null) {//if queue is empty, new node = first
-            this.first = newNode;
-            this.size++;
+        let newNode = {
+            data : data,
+            next : null
+        };
+        if (this.isEmpty()) {//if queue is empty, new node = first
+            this._first = newNode;
+            this._size++;
             return newNode;
         }
-        let node = this.first;
+        let node = this._first;
         while(node.next !== null){
             node = node.next;
         }
         node.next = newNode;
-        this.size++;
+        this._size++;
         return newNode;
     };
     dequeue(){//delete first node(element) from queue
-        let deleted = this.first;
-        this.first = this.first.next;
-        this.size--;
+        let deleted = this._first;
+        this._first = this._first.next;
+        this._size--;
         return deleted;
     }
-    get isEmpty(){
-        return (this.size === 0) ?  true : false;
+    isEmpty(){
+        return this._size === 0;
+    }
+    first(){
+        return this._first;
+    }
+    size(){
+        return this.length;
     }
 }

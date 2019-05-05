@@ -1,55 +1,51 @@
 class List {
-    constructor(value) {
-        this.head = null;
-        this.length = 0;
+    constructor() {
+        this._head = null;
+        this._length = 0;
     };
     addToHead(value){
-        const newNode = {value};
-        newNode.next = this.head;
-        this.head = newNode;
-        this.length++;
-        return this
+        const newNode = {
+            value : value,
+            next : this._head
+        };
+        this._head = newNode;
+        this._length++;
     };
     find(value){
-        let founded = this.head;
+        let founded = this._head;
         while(founded.value !== value){
             founded = founded.next;
         }
         return founded;
     };
-    removeElement(value){//chi exnm ?? this_i mej grel
-        let elem = this.head;
-        while(elem.next.value !== value){
-            elem = elem.next;
+    removeElement(value){
+        if (this.isEmpty()) {
+            return;
         }
-        let deletedElem = elem.next;
-        let takiMnacac = elem.next.next;
-        while(takiMnacac.next !== null ){
-            takiMnacac = takiMnacac.next
+        let deleted = this._head;
+        while(deleted.next.value !== value){
+            deleted = deleted.next;
         }
-        elem.next = elem.next.next;
-        elem.next.next = takiMnacac;
-        this.length--;
-        console.log(deletedElem);
+        deleted.next = deleted.next.next;
+        this._length--;
+        return;
     };
     removeHead(){
-        let node = this.head;
-        this.head = node.next;
-        this.length--;
+        let node = this._head;
+        this._head = node.next;
+        this._length--;
         return node;
     };
-    get isEmpty(){
-        if (this.length === 0) {
-            return true
-        }else{
-            return false
-        }
+    isEmpty(){
+        return this._length === 0;
     };
     remove(){
-        this.head = null;
-        this.length = 0;
-        this.addToHead();
+        this._head = null;
+        this._length = 0;
     };
+    head(){
+        return this._head;
+    }
 };
 
 
@@ -70,17 +66,8 @@ class List {
 //};
 
 
-let tr = new List("mek");
-tr.addToHead("erku");
-tr.addToHead("ereq");
-tr.addToHead("chors");
-
-
-
-
-//console.log(tr.find("erku"),"ira next@")
-
-
-// tr.removeElement("mek")
-
-//console.log(tr,"jnjvec mek@ erevi");
+let list = new List();
+list.addToHead("mek");
+list.addToHead("erku");
+list.addToHead("ereq");
+list.addToHead("chors");
