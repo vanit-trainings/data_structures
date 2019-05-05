@@ -2,41 +2,39 @@ class Queue{
     constructor(){
         this.element = null;
         this.queueLength = 0;
+        this.Node = function(value, next = null){
+            this.value = value;
+            this.next = next
+        }
     }
     front(){
-        let element = this.element;
-        if(this.element === null){
+        if(this.isEmpty()){
             return undefined;
         }
-        while(element){
-            if(element.next === null){
-                return element.value;
-            }
-            element = element.next;
+        while(this.element.next !== null){
+            this.element = this.element.next;
         }
-        return undefined;
+        return this.element.value;
     }
     back(){
-        if(this.element !== null){
-            return this.element.value;
-        }else{
-            return undefined;
-        }
+        return this.isEmpty() ? undefined : this.element.value;
     }
     enQueue(value){
-        const newNode = {
-            value,
-            next : this.element
-        }
-        this.element = newNode;
+        this.element = new this.Node(value, this.element);
         this.queueLength++;
         return this;
     }
+    top(){
+        return this.isEmpty() ? undefined : this.element.value;
+    }
     deQueue(){
-        const findElement = this.element.value;
+        if(this.isEmpty()){
+            return;
+        }
+        const deleted = this.top();
         this.element = this.element.next;
         this.queueLength--;
-        return findElement;
+        return deleted;
     }
     get length(){
         return this.queueLength;
@@ -55,5 +53,5 @@ queue.enQueue(1);
 queue.enQueue(2);
 queue.enQueue(3);
 queue.enQueue(4);
-queue.enQueue(5);
-console.log(queue.front())
+queue.deQueue();
+console.log(queue.clear())
