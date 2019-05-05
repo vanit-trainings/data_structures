@@ -1,51 +1,45 @@
 class Stack {
 	constructor(){
-		this.top = null;
-		this.size = 0;
+		this._top = null;
+		this._size = 0;
 	}
 	push(data){
-		let node = {};
-		node.data = data;
-		node.previous = this.top;
-		this.top = node;
-		this.size++;
-		return this.top;
+		let node = {
+			data : data,
+			previous : this._top
+		};
+		this._top = node;
+		this._size++;
+		return node;
 	}
 	pop(){
-		if (this.size !== 0) {
-			let deleted = this.top;
-			this.top = deleted.previous;
-			this.size--;
+		if (!this.isEmpty()) {
+			let deleted = this._top;
+			this._top = deleted.previous;
+			this._size--;
 			return deleted;
 		}
-		return undefined
-		
+		return;
 	}
-	get isEmpty(){
-		return (this.size === 0) ?  true : false;
+	isEmpty(){
+		return this._size === 0;
 	}
 	clear(){
-		this.top = null;
-		this.size = 0;
+		this._top = null;
+		this._size = 0;
 	}
-
+	size(){
+		return this._size;
+	}
+	top(){
+		return this._top;
+	}
 }
 
 let r = new Stack();
 r.push(45);
 r.push(46);
 r.push(47);
-
-
-
-
-
-
-// console.log(r,"lriv");
-// console.log(r.pop(),"jnjvac@");
-// console.log(r,"jnjveluc heto");
-
-
 
 // Stack = {
 // 	size : 3,

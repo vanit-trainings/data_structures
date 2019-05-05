@@ -1,73 +1,77 @@
 class Stack {
 	constructor(){
-		this.top = null;
-		this.size = 0;
+		this._top = null;
+		this._size = 0;
 	}
 	push(data){
-		let node = {};
-		node.data = data;
-		node.previous = this.top;
-		this.top = node;
-		this.size++;
+		let node = {
+			data : data,
+			previous : this._top
+		};
+		this._top = node;
+		this._size++;
 		return node;
 	}
 	pop(){
-		if (this.size !== 0) {
-			let deleted = this.top;
-			this.top = deleted.previous;
-			this.size--;
+		if (!this.isEmpty()) {
+			let deleted = this._top;
+			this._top = deleted.previous;
+			this._size--;
 			return deleted;
 		}
-		return undefined
-		
+		return;
 	}
-	get isEmpty(){
-		return (this.size === 0) ?  true : false;
+	isEmpty(){
+		return this._size === 0;
 	}
 	clear(){
-		this.top = null;
-		this.size = 0;
+		this._top = null;
+		this._size = 0;
 	}
-
 }
 
 class QueueWithStack {
 	constructor(){
-		this.size = 0;
-		this.stack = new Stack();//stack:{top : null, size : 0}
-		this.list = new Stack();
+		this._size = 0;
+		this.back = new Stack();//stack:{_top : null, size : 0}
+		this.front = new Stack();
 	}
-	
-
 	enqueue(data){
-		this.stack.push(data);
-		this.size++;
-		return this.stack.top;
+		this.back.push(data);
+		this._size++;
 	}
 	dequeue(){
-		if (this.list.size === 0 && this.stack.size === 0) {
-			return undefined;
-		}
-		if (this.stack.size === 0) {
-			return this.list.pop();
-		}
-		while(this.stack.size !== 0){
-			this.list.push(this.stack.pop());
-		}
-		this.size--;
-		return this.list.pop();
+		if (this.front.isEmpty()) {
+            if (this.back.isEmpty()) {
+            	return;
+            }
+            while (!this.back.isEmpty()) {
+                let step = this.back.pop();
+                this.front.push(step);
+            }
+        }
+        this._size--;
+        return this.front.pop().data;
 	}
-	get isEmpty(){
-        return (this.size === 0) ?  true : false;
+	isEmpty(){
+        return this._size === 0;
     }
-    get first(){
-    	if (this.list.size !== 0) {
-    		return this.list.top
+    first(){
+    	if (!this.front.isEmpty()) {
+    		return this.front._top;
     	}
-    	let _first = this.stack.top;
-    	while(_first.previous === null){
-    		_first = _first.previous
-    	}
-    	return _first.previous;    	
+		//front is isEmpty
+		if (this.back.isEmpty()) {return};
+		// back is not empty
+		let _first = this.back._top;
+		while (_first.previous !== null) {
+			_first = _first.previous;
+		}
+		return _first.data;
     }
+	clear(){
+		this._size = 0;
+		this.back = new Stack();//stack:{_top : null, size : 0}
+		this.front = new Stack();//stack:{_top : null, size : 0}
+	}
 }
