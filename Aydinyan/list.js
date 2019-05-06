@@ -33,7 +33,6 @@ list.prototype.push_front = function(data) {
 list.prototype.insert = function (val, ind) {
     if (ind === this.length) {
         this.push_back(val);
-        this.length++;
     }
     else {
     	let n = this.find(ind);
