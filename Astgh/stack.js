@@ -35,11 +35,8 @@ stack.prototype.pop = function() {
 }
 
 stack.prototype.clear = function() {
-	let tnode = this.last;
-	while (this.length !== 0) {
-		tnode = tnode.prev;
-		this.pop();
-	}
+	this.last = null;
+	this.length = 0;
 }
 
 stack.prototype.size = function() {

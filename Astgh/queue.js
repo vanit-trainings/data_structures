@@ -75,7 +75,7 @@ queue.prototype.push = function (val) {
 
 queue.prototype.pop = function () {
 	if (this.container1.length === 0 && this.container2.length === 0) {
-		return null;
+		return;
 	}
 	if (this.container2.length !== 0) {
 		this.length--;
@@ -92,14 +92,8 @@ queue.prototype.pop = function () {
 }
 
 queue.prototype.clear = function () {
-	while (this.container2.length > 0) {
-		this.container2.pop();
-		this.length--;
-	}
-	while (this.container1.length > 0) {
-		this.container1.pop();
-		this.length--;
-	}
+	this.container1.clear();
+	this.container2.clear();
 }
 
 queue.prototype.size = function () {
