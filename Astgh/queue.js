@@ -118,8 +118,7 @@ queue.prototype.print = function () {
 		console.log(node);
 	}
 	while (this.container1.length > 0) {
-		let node = this.container1.pop();
-		this.container2.push(node);
+		this.container2.push(this.container1.pop());
 	}
 	while (this.container2.length > 0) {
 		let node = this.container2.pop();
@@ -128,6 +127,6 @@ queue.prototype.print = function () {
 	}
 	while (helperStack.length > 0) {
 		let tnode = helperStack.pop();
-		this.container2.push(tnode);
+		this.container.push(tnode);
 	}
 }
