@@ -1,6 +1,6 @@
-let node = function(val) {
-	this.next = null;
-	this.prev = null;
+let node = function(val, pr = null, ne = null) {
+	this.prev = pr;
+	this.next = ne;
 	this.value = val;
 }
 
@@ -11,142 +11,107 @@ let list = function() {
 }
 
 list.prototype.push_back = function(data) {
-	let n = new node(data);
-	if (this.length === 0) {
-		this.last = n;
-		this.first = n;
-	}
-	else {
-		this.last.next = n;
-		n.prev = this.last;
-		this.last = n;
-	}
+    if (this.length === 0) {
+        this.last = new node(data, null, null);
+        this.first = this.last;
+    }
+    else {
+        this.last.next = new node(data, this.last, null);
+        this.last = this.last.next;
+    }
 	this.length++;
 }
 
 list.prototype.push_front = function(data) {
-	let n = new node(data);
+    this.first = new node(data, null, this.first);
 	if (this.length === 0) {
-		this.last = n;
-		this.first = n;
-	}
-	else {
-		this.first.prev = n;
-		n.prev = null;
-		this.first = n;
+        this.last = this.first;
 	}
 	this.length++;
 }
 
-list.prototype.remove = function(ind) {
-    if (!isNaN(Number(ind)) && ind >= 0 && ind < this.length) {
-        let n = this.first;
-        if (ind === 0) {
-            if (this.length > 1) {
-                n.next.prev = null;
-                this.first = n.next;
-                n.prev = null;
-                n.next = null;
+list.prototype.insert = function (val, ind) {
+    if (ind === this.length) {
+        this.push_back(val);
+    }
+    else {
+    	let n = this.find(ind);
+    	if (n !== undefined) {
+            if (ind === 0) {
+                this.push_front(val);
             }
             else {
-                this.first = null;
-                this.last = null;
-            }            
-        }
-        else if (ind === (this.length - 1)) {
-            n = this.last;
-            n.prev.next = null;
-            this.last = n.prev;
-            n.prev = null;
-            n.next = null
-        }
-        else {
-            for (let i = 0; i < ind; i++) {
-                n = n.next;
+                let np = n.prev;
+                n.prev = new node(val, np, n);
+                np.next = n.prev;
+
             }
-                n.prev.next = n.next;
-                n.next.prev = n.prev;
-                n.prev = null;
-                n.next = null;        
+            this.length++;
         }
-        this.length--;
     }
 }
 
-list.prototype.insert = function(data, ind) {
-    let newNode = new node(data);
-    if (!isNaN(Number(ind)) && ind >= 0 && ind <= this.length) {
-        let n = this.first;
+list.prototype.isEmpty = function() {
+    return this.length === 0;
+}
+
+list.prototype.find = function (ind) {
+	if (isNaN(Number(ind)) || ind >= this.length || ind < 0) {
+		return;
+	}
+	let tmp = this.first;
+	for (let i = 0; i < ind; i++) {
+		tmp = tmp.next;
+	}
+	return tmp;
+}
+
+list.prototype.remove = function(ind) {
+    let n = this.find(ind);
+    if (n !== undefined && this.length > 0) {
+        if (ind !== 0 && ind !== this.length - 1) {
+            n.prev.next = n.next;
+            n.next.prev = n.prev;
+        }
         if (ind === 0) {
-            if (this.length > 1) {
-                n.prev = newNode;
-                newNode.next = n;
-                newNode.prev = null;
-                this.first = newNode;
-            }
-            else{
-                this.first = newNode;
-                this.last = newNode;
-            }            
+            this.pop_front();
         }
-        else if (ind === this.length) {
-            n = this.last;
-            n.next = newNode;
-            newNode.prev = n;
-            this.last = newNode;
+        if (ind === this.length -1) {
+            this.pop_back();
         }
-        else {
-            for (let i = 1; i < ind; i++) {
-                n = n.next;
-            }
-            n.next.prev = newNode;
-            newNode.next = n.next;
-            n.next = newNode;
-            newNode.prev = n;
-        }
-        this.length++;
     }
 }
 
 list.prototype.pop_front = function() {
-    let n = this.first;
-    let val = n.value;
-	if (this.length === 0) {
-		return ;
-	}
-	else {
-		this.first = n.next;
-		this.first.prev = null;
-		n.value = null;
-		n.next = null;
+	if (this.length !== 0) {
+        let val = this.first.value;
+        this.first = this.first.next;
+        if (this.length !== 1) {
+            this.first.prev = null;
+        }
+        else {
+            this.last = this.first;
+        }
         this.length--;
-        return val;
-	}
+		return val;
+    }
+    return ;
 }
 
 list.prototype.pop_back = function() {
-    let n = this.last;
-    let val = n.value;
-	if (this.length === 0) {
-		return ;
-	}
-	else {
-		this.last = n.prev;
-		this.last.next = null;
-		n.value = null;
-		n.prev = null;
+    if (this.length !== 0) {
+        let val = this.last.value;
+        this.last = this.last.prev;
+        if (this.length !== 1) {
+            this.last.next = null;
+        }
+        else {
+            this.first = this.last;
+        }
         this.length--;
-        return val;
-	}
-}
-
-list.prototype.isEmpty = function() {
-	if (this.length == 0) {
-		return true;
-	}
-	else {
-		return false;
-	}
+		return val;
+    }
+    return ;
 }
 
 list.prototype.print = function() {
@@ -161,11 +126,9 @@ list.prototype.print = function() {
 }
 
 list.prototype.clear = function() {
-    let n = this.first;
-    while (n !== null) {
-        n = n.next;
-        this.remove(0);
-    }
+    this.first = null;
+    this.last = null;
+    this.length = 0;
 }
 
 list.prototype.size = function() {
@@ -181,7 +144,7 @@ d.print();
 console.log(d.length);
 d.remove(4);
 d.print();
-d.insert(333, 4);
+d.insert(333, 0);
 d.print();
 console.log(d.isEmpty());
 console.log(d.first.value);
