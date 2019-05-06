@@ -14,7 +14,7 @@ function swap(stack1, stack2) {
 }
 
 function dequeue() {
-	if (stack2.size === 0 && stack1.size === 0) {
+	if (isEmpty()) {
 		console.log("Queue is empty.");
 		return;
 	}
@@ -26,7 +26,7 @@ function dequeue() {
 }
 
 function top() {
-	if (stack2.size === 0 && stack1.size === 0) {
+	if (isEmpty()) {
 		console.log("Queue is empty.");
 		return;
 	}
@@ -50,7 +50,7 @@ function print() {
 	let stack3 = new stack();
 	swap(stack2, stack3);
 	swap(stack1, stack2);
-	swap(stack3, stack1);
+	swap(stack3, stack2);
 	stack2.print();
 }
 
