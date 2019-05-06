@@ -1,5 +1,5 @@
-var node = function(val) {
-	this.prev = null;
+var node = function(val, pr = null) {
+	this.prev = pr;
 	this.value = val;
 }
 
@@ -9,27 +9,17 @@ var stack = function() {
 }
 
 stack.prototype.push = function(data) {
-	let n = new node(data);
-	if (this.length === 0) {
-        n.prev = this.last;
-		this.last = n;
-	}
-	else {
-		n.prev = this.last;
-		this.last = n;
-	}
+	this.last = new node(data, this.last);
 	this.length++;
 }
 
 stack.prototype.pop = function() {
     if (this.length > 0) {
-        let n = this.last;
-        let val = n.value;    
+        let n = this.last;    
         this.last = n.prev;
         n.prev = null;
-        n.value = null;
         this.length--;
-        return val;
+        return n.value;
     }
     else {
         return ;
@@ -37,7 +27,7 @@ stack.prototype.pop = function() {
 }
 
 stack.prototype.isEmpty = function() {
-	return !(this.length > 0);
+	return this.length === 0;
 }
 
 stack.prototype.print = function() {
@@ -51,11 +41,8 @@ stack.prototype.print = function() {
 }
 
 stack.prototype.clear = function() {
-    let n = this.last
-    while (n !== null) {
-        n = n.prev;
-        this.pop();
-    }
+    this.last = null;
+    this.length = 0;
 }
 
 stack.prototype.top = function() {
@@ -142,18 +129,13 @@ queue.prototype.print = function() {
 }
 
 queue.prototype.isEmpty = function() {
-    return !(this.length > 0);
+    return this.length === 0;
 }
 
 queue.prototype.clear = function() {
-    while (this.stackForPop.size() > 0) {
-        this.stackForPop.pop();
-        this.length--;
-    }
-    while (this.stackForPush.size() > 0) {
-        this.stackForPush.pop();
-        this.length--;
-    }
+    this.stackForPop.clear();
+    this.stackForPush.clear();
+    this.length = 0;
 }
 
 let q = new queue();
