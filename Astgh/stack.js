@@ -12,10 +12,8 @@ stack.prototype.push = function(val) {
 	let newNode = new node(val);
 	if (this.length !== 0) {
 		newNode.prev = this.last;
-		this.last = newNode;
-	} else {
-		this.last = newNode;
 	}
+	this.last = newNode;
 	this.length++;
 }
 
