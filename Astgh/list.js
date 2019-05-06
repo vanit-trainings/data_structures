@@ -12,33 +12,47 @@ var list = function () {
 
 list.prototype.push_front = function (val) {
 	this.first = new node(val, this.first) 
-	if (isEmpty()) {
+	if (this.isEmpty()) {
 		this.last = this.first;
 	}
 	this.length++;
 }
 
 list.prototype.push_back = function (val) {
-	this.last = new node(val, null, this.last);
-	if (isEmpty()) {
+	if (this.isEmpty()) {
+		this.last = new node(val, null, null);
 		this.first = this.last;
+	}
+	else {
+		this.last.next = new node(val, null, this.last);
+		this.last = this.last.next;
 	}
 	this.length++;
 }
 
 list.prototype.insert = function (val, index) {
-	let n = this.find(index);
-	if (n === undefined) {
-		return;
+	if (index === this.length) {
+		push_back(val);
 	}
-	let np = n.next;
-	n.next = new node(val, n.next, n);
-	np.prev = n.next;
-	this.length++;
+	else {
+		let n = this.find(index);
+		if (n !== undefined) {
+			if (index === 0) {
+				this.push_front(val);
+			}
+			else {
+				let np = n.prev;
+				n.prev = new node(val, n, np);
+				np.next = n.prev;
+				this.length++;
+			}
+		}
+		return ;
+	}
 }
 
 list.prototype.pop_front = function () {
-	if (isEmpty()) {
+	if (this.isEmpty()) {
 		return;
 	}
 	let val = this.first.value;
@@ -53,18 +67,15 @@ list.prototype.pop_front = function () {
 }
 
 list.prototype.pop_back = function () {
-	let lastNode = this.last;
-	let val = lastNode.val;
-	if (this.lentgh === 0) {
-		return;
-	} 
-	if (this.length === 1) {
-		this.first = null;
-		this.last = null;
-	} else {
-		this.last = lastNode.prev;
+	if (this.isEmpty()) {
+                return;
+        }
+	let val = this.last.value;
+	this.last = this.last.prev;
+	if (this.last !== null) {
 		this.last.next = null;
-		lastNode = null;
+	} else {
+		this.first = null;
 	}
 	this.length--;
 	return val;
@@ -82,29 +93,18 @@ list.prototype.find = function (index) {
 }
 
 list.prototype.remove = function (index) {
-
-	if (index > this.length - 1 || index < 0) {
-		return;
-	}
-	if (index === this.length - 1) {
-		this.pop_back();
-	} else
+	let n = this.find(index);
+	if (n !== undefined && this.length > 0) {
+		if (index !== 0 && index !== this.length - 1) {
+			n.prev.next = n.next;
+			n.next.prev = n.prev;
+		}
 		if (index === 0) {
 			this.pop_front();
 		}
-	else {
-		let tnode = this.first;
-		for (let i = 0; i < index; ++i) {
-			tnode = tnode.next;
+		if (index === this.length -1) {
+			this.pop_back();
 		}
-		let val = tnode.value;
-		tnode.next.prev = tnode.prev;
-		tnode.prev.next = tnode.next;
-		tnode.prev = null;
-		tnode.next = null;
-		tnode.value = null;
-		this.length--;
-		return val;
 	}
 }
 
@@ -129,3 +129,21 @@ list.prototype.clear = function () {
 	this.last = null;
 	this.length = 0;
 }
+
+var l = new list();
+l.push_back(1);
+l.push_back(2);
+l.push_front(3);
+l.push_back(4);
+l.push_front(5);
+l.print();
+l.remove(4);
+l.pop_front();
+l.print();
+l.insert(333, 0);
+l.pop_back();
+console.log(l.size());
+l.print();
+console.log(l.isEmpty());
+l.clear();
+console.log(l.isEmpty());
