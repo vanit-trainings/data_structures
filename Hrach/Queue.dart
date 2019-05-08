@@ -36,8 +36,8 @@ class Queue {
 
   void clear() {
     if (!isEmpty()) {
-      _container1.clear();
-      _container2.clear();
+      _container1.erase();
+      _container2.erase();
     }
   }
 
@@ -47,10 +47,10 @@ class Queue {
 
   void print() {
     if (!_container2.isEmpty()) {
-      _container2.printBack();
+      _container2.printAll();
     }
     if (!_container1.isEmpty()) {
-      _container1.printFront();
+      _container1.printAll();
     }
   }
 
