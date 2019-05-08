@@ -196,7 +196,8 @@ class list {
   get length => _length;
 
   set length(l) => _length = l;
-
+  set vertex(v) => _vertex = v;
+  set tale(t) => _tale = t;
   node _vertex;
   node _tale;
   int _length;
