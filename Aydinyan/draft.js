@@ -28,7 +28,8 @@ class list {
     }
 
     push_front(data) {
-        this.first = new node(data, null, this.first);
+        this.first.prev = new node(data, null, this.first);
+        this.first = this.first.prev;
         if (this.length === 0) {
             this.last = this.first;
         }
@@ -130,6 +131,17 @@ class list {
         console.log("");
     }
 
+    rprint() {
+        if (this.length > 0) {
+            let n = this.last;
+            while (n !== null) {
+                console.log(n.value);
+                n = n.prev;
+            }
+        }
+        console.log("");
+    }
+
     clear() {
         this.first = null;
         this.last = null;
@@ -139,283 +151,149 @@ class list {
     size() {
         return this.length;
     }
-}
 
-function swapForNeighbors (list, i, j)
-{
-    //let tmp = Object.create(j);
-    //let tmp = j;
-    let tmp = new node(j.value, j.prev, j.next);
-    if (i.prev === null && j.next === null) {
-        j.next = i;
-        j.prev = null;
-        i.next = null;
-        i.prev = j;
-        list.first = j;
-        list.last = i;
-    }
-    else {
-        if (i.prev === null) {
-            j.next.prev = i;
-            i.prev = j;
-            j.prev = null;
-            j.next = i;
-            i.next = tmp.next;
-            list.first = j;
-        }
-        else {
-            if (j.next === null) {
-                i.prev.next = j;
-                j.prev = i.prev;
-                i.prev = j;
-                i.next = null;
-                j.next = i;
-                list.last = i;
+    insertNode(node, pr) {
+        if (node){
+            console.log('insert' + node.value)
+            console.log('last: = ' + this.last.value);
+            if (pr !== null) {
+                console.log('pr: = ' + pr.value);
+            }
+            if(pr === null) {
+                console.log('1')
+                this.push_front(node.value);
             }
             else {
-                i.prev.next = j;
-                j.next.prev = i;
-                j.next = i;
-                j.prev = i.prev;
-                i.prev = j;
-                i.next = tmp.next;
-            }
-        }
-    }
-}
-
-function swap(lis, i, j) {
-    console.log('++++swap++++')
-    console.log(i);    
-    console.log('++++++')
-    console.log(j);
-    console.log('++++++swap-verj+++++')
-
-
-    if (i !== j && i && j) {
-        if (i.next === j) {
-
-            swapForNeighbors(lis, i, j);
-        }
-        if (j.next === i)
-        {
-            swapForNeighbors(lis, j, i);            
-        }
-        else {
-            //let tmp = Object.create(j);
-            //let tmp = j;
-            let tmp = new node(j.value, j.prev, j.next);
-            if (i.prev === null && j.next === null) {
-                //i.prev.next = j;
-                i.next.prev = j;
-                //j.next.prev = i;
-                j.prev.next = i;
-                j.next = i.next;
-                j.prev = i.prev;
-                i.next = tmp.next;
-                i.prev = tmp.prev;
-                lis.first = j;
-                lis.last = i;
-            }
-            else {
-                if (j.prev === null && i.next === null){
-                    i.prev.next = j;
-                    //i.next.prev = j;
-                    j.next.prev = i;
-                    //j.prev.next = i;
-                    j.next = i.next;
-                    j.prev = i.prev;
-                    i.next = tmp.next;
-                    i.prev = tmp.prev;
-                    lis.first = i;
-                    lis.last = j;
-                }
-                else if (j.prev === null) {
-                        i.prev.next = j;
-                        i.next.prev = j;
-                        j.next.prev = i;
-                        //j.prev.next = i;
-                        j.next = i.next;
-                        j.prev = i.prev;
-                        i.next = tmp.next;
-                        i.prev = tmp.prev;
-                        lis.first = i;                
-                }
-                else if (j.next === null) {
-                        i.prev.next = j;
-                        i.next.prev = j;
-                        //j.next.prev = i;
-                        j.prev.next = i;
-                        j.next = i.next;
-                        j.prev = i.prev;
-                        i.next = tmp.next;
-                        i.prev = tmp.prev;
-                        lis.last = i;  
+                if (this.last.prev == pr.prev) {
+                    console.log('2')
+                    this.push_back(node.value);
                 }
                 else {
-                    if (i.prev === null) {
-                        //i.prev.next = j;
-                        i.next.prev = j;
-                        j.next.prev = i;
-                        j.prev.next = i;
-                        j.next = i.next;
-                        j.prev = i.prev;
-                        i.next = tmp.next;
-                        i.prev = tmp.prev;
-                        lis.first = j; 
-                    }
-                    else {
-                        if (i.next === null){
-                            i.prev.next = j;
-                            j.next.prev = i;
-                            j.prev.next = i;
-                            j.next = i.next;
-                            j.prev = i.prev;
-                            i.next = tmp.next;
-                            i.prev = tmp.prev;
-                            lis.last = j;
-                        }
-                        else {
-                            i.prev.next = j;
-                            i.next.prev = j;
-                            j.next.prev = i;
-                            j.prev.next = i;
-                            j.next = i.next;
-                            j.prev = i.prev;
-                            i.next = tmp.next;
-                            i.prev = tmp.prev;
-                        }
-                    }
+                    console.log('3')
+                    pr.next.prev = node;
+                    node.next = pr.next;
+                    pr.next = node;
+                    node.prev = pr;
+                    this.length++;
+                }
+            }
+        }
+    }
+
+    removeNode (node) {
+        if (node && this.length > 0) {
+            console.log('remove');
+            console.log(node.value);
+            if (node !== this.first && node !== this.last) {
+                console.log('1');
+                node.prev.next = node.next;
+                node.next.prev = node.prev;
+                this.length--;
+            }
+            else {
+                if(node == this.first) {
+                    console.log('2');
+                    this.pop_front();
+                }
+                else {
+                    console.log('3');
+                    this.pop_back();
                 }
             }
         }
     }
 }
 
+
+
+
 function quickSort(lis) {
-//    console.log(lis.first);
-//    console.log('+++++++');
-//    console.log(lis.last);
     let low, hii;
     low = lis.first;
     hii = lis.last;
-//    console.log(low);
-//    console.log('+++++++');
-//    console.log(hii);
+    lis = sub_qs(lis, low, hii);
 
-    array = sub_qs(lis, low, hii);
   
     function sub_qs(lis, lo, hi) {
-        //console.log(lis.first);
-        //console.log('+++++++');
-        //console.log(lis.last);
-        //console.log('+++++++');
-        //console.log('+++++++');
-        //console.log(low);
-        //console.log('+++++++');
-        //console.log(hi);
-
         if (lis.size()<=1) {
             return lis;
         }
         if (lo !== hi) {
           var p = partition(lis, lo, hi);
+          if (p.prev !== null && p.prev !== lo) {
           sub_qs(lis, lo, p.prev);
+          }
+          if (p.next !== null && p.next !== hi) {
           sub_qs(lis, p.next, hi);
+          }
         }
         return lis;
     }
   
+    var z = 0;
+    function Swap(lis, i, j) {
+        if (i != j){
+            z++;
+            let jp = j.prev;
+            let ip = i.prev;
+            let J, I;
+            if (j.prev != null ) {
+                J = Object.assign({}, j.prev);
+            }
+            else {
+                J = null;
+            }
+            if (i.prev != null){
+            I = Object.assign({}, i.prev);}
+            else {
+                I = null
+            }
+            lis.removeNode(i);
+            lis.removeNode(j);
+            lis.insertNode(i, J);
+            lis.insertNode(j, I);
+        }
+    }
+
     function partition(lis, l, h) {
-        //console.log(lis.first);
-        //console.log('+++++++');
-        //console.log(lis.last);
-        //console.log('+++++++');
-        //console.log('+++++++');
-        //console.log(l);
-        //console.log('+++++++');
-        //console.log(h);
+        let pivot = h;
+        let i = l;
+        //let j = l;
+        console.log('+++++++pivotValue++++');
+        console.log(pivot.value);
+        console.log('+++++++ j Value++++');
+        console.log(l.value);
 
-      let pivot = h;
-      let i = l;
-      let j = l;
-        //console.log('+++++++');
-        //console.log(pivot);
-        //console.log('+++++++');
-        //console.log(i);
-
-      for (let z = 0 ;j.next != null; z++) {
-        console.log('+++++++PIVOT+++++++');
-        console.log(pivot);
-        console.log('+++++++J++++++');
-        console.log(j);
-        console.log('+++++++I+++++');
-        console.log(i);
-        var J = j.next;
-        //var J = j;
-        //var J = new node(j.value, j.prev, j.next);
+      for (let j = l ; j.next != h ; j = j.next) {
+        let J = Object.assign({}, j);
         if (j.value < pivot.value) {
-            var I = i.next;
-            //var I = i;
-          swap(lis, i, j);
-          i = I;
+            let I = Object.assign({}, i);
+            console.log('i == ' + i.value);
+            Swap(lis, i, j);
+            i = I.next;
         }
-        j = J;
-        //j = new node(J.next.value, J, J.next.next);
-        console.log('++++j new++++')
-        console.log(j); 
+            j = J;
+            if(j.next == null){
+                break;
+            }
       }
-      let ind = i;
-      swap(lis, i, pivot);
-  
-      return ind;
+      console.log('swap: i = ' + i.value + '  piv = ' + pivot.value);
+      Swap(lis, i, pivot);
+      console.log('++++ list ++++')
+      lis.print()
+      console.log('++++ list fist last ++++')
+      console.log('first =' + lis.first.value)
+      console.log('last =' + lis.last.value)
+      return pivot;
     }
+
+
     return array;
-  }
-
-/*
-function partition (lis, f, l) {
-    let piv = l;
-    let i = f;
-    let j = f;
-    while ( j != l ) {
-        let J = j.next;
-        if (j.value < piv.value) {
-            swap(lis, i, j);
-            i = i.next;
-        }
-        j = J;
-        if (j === null || i === null){
-            break;
-        }
-    }
-    let ind = i;
-    swap(lis, i, piv);
-    return ind;
 }
-
-function quickSortForList(lis, f, l) {
-
-    console.log('xxx = '+lis.first.next.next.value)
-
-    if (f !== l) {
-        var piv = partition(lis, f, l);
-        if (piv !== null) {
-            if (piv.prev !== null && piv.prev !== f) {
-                quickSortForList(lis, f, piv.prev);
-            }
-            if (piv.next !== null && piv.next !== l) {
-                quickSortForList(lis, piv.next, l);
-            }
-        }
-    }
-    return lis;
-}
-
-*/
 
 let count = NaN;
 let lis = new list();
+/*
 while (isNaN(Number(count))) {
     count = readline.question("Enter list element count\n");    
 }
@@ -423,20 +301,67 @@ while (isNaN(Number(count))) {
 for (let i = 0; i < count; i++) {
     lis.push_back(Math.floor(Math.random()* 100));
 }
+*/
+function Swap(lis, i, j) {
+    if (i != j && i && j && i.next != j && j.next != i ){
+        let J, I;
+        if (i != null && i.prev != null){
+        I = Object.assign({}, i.prev);}
+        else {
+            I = null
+        }
+        lis.removeNode(i);
+        if (j != null && j.prev != null ) {
+            J = Object.assign({}, j.prev);
+        }
+        else {
+            J = null;
+        }
+        lis.removeNode(j);
+        lis.insertNode(i, J);
+        lis.insertNode(j, I);
+    }
+    else {
+        if (i.next == j) {
+            let J, I;
+            if (i != null && i.prev != null){
+            I = Object.assign({}, i.prev);}
+            else {
+                I = null
+            }
+            lis.removeNode(i);
+            if (j != null && j.prev != null ) {
+                J = Object.assign({}, j);
+            }
+            else {
+                J = null;
+            }
+            lis.removeNode(j);
+            lis.insertNode(j, I); 
+            lis.insertNode(i, j);
+        }
+    }
+}
 
+lis.push_back(47);
+lis.push_back(78);
+lis.push_back(38);
+lis.push_back(31);
+lis.push_back(14);
 lis.print();
 
-function x(lis, f, l) {
-    console.log(lis.first);
-    console.log('+++++++++++++')
-    console.log(f);
-    console.log('+++++++++++++')
-    console.log(l);
+Swap(lis, lis.first, lis.last);
+lis.print();
 
-}
-//x(lis, lis.first, lis.last)
-//swap(lis, lis.first, lis.first.next);
-(quickSort(lis).print());
-//lis = quickSortForList(lis, lis.first, lis.last);
+Swap(lis, lis.first, lis.last);
+lis.print();
 
-//lis.print();
+Swap(lis, lis.first.next, lis.first.next.next);
+lis.print();
+
+Swap(lis, lis.first, lis.first.next.next.next);
+//quickSort(lis);
+
+console.log('x');
+lis.print();
+lis.rprint();
