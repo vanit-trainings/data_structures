@@ -1,9 +1,8 @@
-var node = function (val, n = null, p = null) {
+function node ( val, n = null, p = null) {
 	this.value = val;
 	this.next = n;
 	this.prev = p;
 }
-
 var list = function () {
 	this.first = null;
 	this.last = null;
@@ -37,28 +36,6 @@ list.prototype.pushBack = function (val) {
 	}
 	this.length++;
 }
-
-list.prototype.insert = function (val, index) {
-	if (index === this.length) {
-		pushBack(val);
-	}
-	else {
-		let n = this.find(index);
-		if (n !== undefined) {
-			if (index === 0) {
-				this.pushFront(val);
-			}
-			else {
-				let np = n.prev;
-				n.prev = new node(val, n, np);
-				np.next = n.prev;
-				this.length++;
-			}
-		}
-		return ;
-	}
-}
-
 list.prototype.popFront = function () {
 	if (this.isEmpty()) {
 		return;
@@ -100,22 +77,6 @@ list.prototype.find = function (index) {
 	return temp;
 }
 
-list.prototype.remove = function (index) {
-	let n = this.find(index);
-	if (n !== undefined && this.length > 0) {
-		if (index !== 0 && index !== this.length - 1) {
-			n.prev.next = n.next;
-			n.next.prev = n.prev;
-		}
-		if (index === 0) {
-			this.popFront();
-		}
-		if (index === this.length -1) {
-			this.popBack();
-		}
-	}
-}
-
 list.prototype.print = function () {
 	let tempNode = this.first;
 	while (tempNode !== null) {
@@ -130,52 +91,62 @@ list.prototype.clear = function () {
 	this.length = 0;
 }
 
-// swap first element with the last element
+list.prototype.insert = function (node, node2) {
+		if (!this.isEmpty() && this.length > 1) {
+		if(node2.prev === null){
+			node2.prev = node;
+			node2.prev.next = node2;
+			node.prev === null;
+	}
+	else if (node2.next === null) {
+		node2.next = node;
+		node2.next.prev = node2;
+		node.next === null;
+	}
+	else {
+		node2.next.prev = node;
+		node.next = node2.next; 
+		node.prev = node2;
+		node2.next = node;
+	}
+  } 
+  this.length++; 
+}
+list.prototype.remove = function (node) {
+	if (!this.isEmpty() && this.length > 1) {
+		if(node.prev === null) {
+			node.next.prev === null; 
+		}
+		else if (node.next === null) {
+			node.prev.next === null; 
+		}
+		else {
+			node.prev.next = node.next; 
+			node.next.prev = node.prev;
+					}
+	}
+	this.length--;
+}
 
-list.prototype.swapFirstLastElements = function () {
-if(!this.isEmpty() && this.first !== this.last) {
-    let tempNode = this.first;
-    let tempNode2 = this.last; 
-    pushBack(tempNode);
-    pushFront(tempNode2);
-    remove(tempNode.next);
-    remove (tempNode2.prev);
-}
-return list;
-}
-// swap first element with the middle element
-list.prototype.swapFirstMiddleElements = function (index) {
-    if(!this.isEmpty() && this.length > 2) {
-        let tempNode = this.first;
-        let tempNode2 = this.find(index); 
-        pushFront(tempNode2);
-        insert(tempNode, index);
-        remove(tempNode.next);
-        remove (tempNode2.prev);
+list.prototype.swap = function (node, node2) {
+	this.node = new node (); 
+	this.node2 = new node (); 
+		let tempNode = node;
+		if (!this.isEmpty() && this.length > 1) {
+this.insert (node2, node);
+this.insert (tempNode, node2);
+this.remove (node2);
+this.remove (node);
     }
-    return list;
 }
-// swap last element with the middle element
-list.prototype.swapLasttMiddleElements = function (index) {
-    if(!this.isEmpty() && this.length > 2) {
-        let tempNode = this.last;
-        let tempNode2 = this.find(index); 
-        pushBack(tempNode2);
-        insert(tempNode, index);
-        remove(tempNode.prev);
-        remove (tempNode2.prev);
-    }
-    return list;
-}
-// swap two middle elements
-list.prototype.swapTwotMiddleElements = function (index1, index2) {
-    if(!this.isEmpty() && this.length > 3) {
-        let tempNode = this.find (index1)
-        let tempNode2 = this.find(index2); 
-        insert(tempNode2, index1);
-        insert(tempNode, index2);
-        remove(tempNode.prev);
-        remove (tempNode2.prev);
-    }
-    return list; 
-} 
+
+var test = new list();
+test.pushBack(13);
+test.pushBack(26);
+test.pushBack(43);
+test.pushBack(123);
+test.pushBack(134);
+test.print();
+console.log ('swap');
+test.swap(test.last, test.first);
+test.print();
