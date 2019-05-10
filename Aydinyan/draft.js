@@ -160,13 +160,21 @@ class list {
                 console.log('pr: = ' + pr.value);
             }
             if(pr === null) {
+                this.first.prev = node;
+                node.next = this.first;
+                node.prev = null;
+                this.first = node;
                 console.log('1')
-                this.push_front(node.value);
+                //this.push_front(node.value);
             }
             else {
                 if (this.last.prev == pr.prev) {
+                    this.last.next = node;
+                    node.next = null;
+                    node.prev = this.last;
+                    this.last = node;
                     console.log('2')
-                    this.push_back(node.value);
+                    //this.push_back(node.value);
                 }
                 else {
                     console.log('3')
@@ -204,7 +212,31 @@ class list {
     }
 }
 
-
+function QSort (lis, begin, end) {
+    if (begin === null || end === null || begin === end) {
+        return lis;
+    }
+    let pivot = begin;
+    let curr = begin.next;
+    while (curr != end) {
+        if (curr.value < pivot.value) {
+            let tmp = curr.next;
+            lis.remove(curr);
+            curr.next = pivot;
+            if (list.first !== pivot) {
+                pivot.prev.next = curr;
+                curr.prev = pivot.prev;
+                pivot.prev = curr;
+            }
+            else {
+                lis.first.prev = curr;
+                curr.next = lis.first;
+                curr.prev = null;
+                lis.first = curr;
+            }
+        }
+    }
+}
 
 
 function quickSort(lis) {
@@ -231,7 +263,7 @@ function quickSort(lis) {
     }
   
     var z = 0;
-    function Swap(lis, i, j) {
+    /*function Swap(lis, i, j) {
         if (i != j){
             z++;
             let jp = j.prev;
@@ -253,10 +285,10 @@ function quickSort(lis) {
             lis.insertNode(i, J);
             lis.insertNode(j, I);
         }
-    }
+    }*/
 
     function partition(lis, l, h) {
-        let pivot = h;
+        let pivot = h.prev.next;
         let i = l;
         //let j = l;
         console.log('+++++++pivotValue++++');
@@ -308,8 +340,8 @@ function Swap(lis, i, j) {
         I = Object.assign({}, i);
         J = Object.assign({}, j);
         lis.insertNode(I, j);
-        lis.removeNode(I.prev);
         lis.insertNode(J, i);
+        lis.removeNode(I.prev);
         lis.removeNode(J.prev);
     }
 }
@@ -336,3 +368,6 @@ Swap(lis, lis.first, lis.first.next.next.next);
 console.log('x');
 lis.print();
 //lis.rprint();
+console.log('x');
+console.log(lis.first.value);
+console.log(lis.last.value);
