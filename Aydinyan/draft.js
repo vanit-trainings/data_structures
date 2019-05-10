@@ -303,43 +303,14 @@ for (let i = 0; i < count; i++) {
 }
 */
 function Swap(lis, i, j) {
-    if (i != j && i && j && i.next != j && j.next != i ){
+    if (i != j && i != null && j != null) {
         let J, I;
-        if (i != null && i.prev != null){
-        I = Object.assign({}, i.prev);}
-        else {
-            I = null
-        }
-        lis.removeNode(i);
-        if (j != null && j.prev != null ) {
-            J = Object.assign({}, j.prev);
-        }
-        else {
-            J = null;
-        }
-        lis.removeNode(j);
-        lis.insertNode(i, J);
-        lis.insertNode(j, I);
-    }
-    else {
-        if (i.next == j) {
-            let J, I;
-            if (i != null && i.prev != null){
-            I = Object.assign({}, i.prev);}
-            else {
-                I = null
-            }
-            lis.removeNode(i);
-            if (j != null && j.prev != null ) {
-                J = Object.assign({}, j);
-            }
-            else {
-                J = null;
-            }
-            lis.removeNode(j);
-            lis.insertNode(j, I); 
-            lis.insertNode(i, j);
-        }
+        I = Object.assign({}, i);
+        J = Object.assign({}, j);
+        lis.insertNode(I, j);
+        lis.removeNode(I.prev);
+        lis.insertNode(J, i);
+        lis.removeNode(J.prev);
     }
 }
 
@@ -364,4 +335,4 @@ Swap(lis, lis.first, lis.first.next.next.next);
 
 console.log('x');
 lis.print();
-lis.rprint();
+//lis.rprint();
