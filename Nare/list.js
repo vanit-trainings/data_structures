@@ -111,7 +111,7 @@ list.prototype.remove = function (index) {
 			this.popFront();
 		}
 		if (index === this.length -1) {
-			this.popBsack();
+			this.popBack();
 		}
 	}
 }
