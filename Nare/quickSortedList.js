@@ -140,13 +140,73 @@ this.remove (node);
     }
 }
 
+list.prototype.swaping = function (begin, end) {
+	console.log("swaping1");
+	if (begin == null || begin === end) {
+		return;
+	}
+	console.log("swaping1");
+	let pivot = begin;
+	let current = begin.next;
+	while (current != end) {
+		let tmp = current.next;
+		if (current.value < pivot.value) {
+			if (current.next) {
+				current.next.prev = current.prev;
+			}
+			if (current.prev) {
+				current.prev.next = current.next;
+			}
+			current.next = begin;
+			current.prev = begin.prev;
+			if (begin.prev) {
+				begin.prev.next = current;
+			}
+			begin.prev = current;
+			begin = current;
+		}
+		current = tmp;
+	}
+	return pivot;
+}
+
+list.prototype.quick_sort = function (b, e) {
+	if (b == null || b.next === e) {
+		console.log ('quick_sort 1');
+		return;
+	}
+	p = this.swaping(b, e);
+	if (p == null) {
+console.log ('quick_sort 2');
+		return;
+	}
+console.log ('quick_sort 3');
+	this.quick_sort(b, p.next);
+	this.quick_sort(p.next, e);
+}
+
+list.prototype.sort = function () {
+	console.log("first", this.first);
+	console.log("last", this.last);
+	this.quick_sort(this.first, this.last.next);
+}
+
+
 var test = new list();
-test.pushBack(13);
-test.pushBack(26);
-test.pushBack(43);
-test.pushBack(123);
 test.pushBack(134);
+test.pushBack(13);
+test.pushBack(14);
+test.pushBack(18);
+test.pushBack(13);
+test.pushBack(13);
+test.pushBack(16);
+test.pushBack(26);
+test.pushBack(123);
+test.pushBack(43);
 test.print();
-console.log ('swap');
-test.swap(test.last, test.first);
+console.log ('sort');
+test.sort();
 test.print();
+
+
+
