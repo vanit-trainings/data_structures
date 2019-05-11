@@ -56,7 +56,7 @@ class list {
   }
 
   node insertBefore(node ins, int value) {
-    if(ins == null) {
+    if (ins == null) {
       return null;
     }
     node tmp = node(value);
@@ -71,7 +71,7 @@ class list {
   }
 
   node insertAfter(node ins, int value) {
-    if(ins == null) {
+    if (ins == null) {
       return null;
     }
     node tmp = node(value);
@@ -131,6 +131,29 @@ class list {
     _length--;
   }
 
+  void removeNode(node lost) {
+    if(lost == null) {
+      return;
+    }
+    if (lost == _vertex) {
+      remove(0);
+    } else if (lost == _tale) {
+      remove(this.length - 1);
+    } else {
+      node tmp = _vertex;
+      //insurance,  complexity = O(n)
+      while (tmp != null) {
+        if (tmp == lost) {
+          tmp.prev.next = tmp.next;
+          tmp.next.prev = tmp.prev;
+          length--;
+          return;
+        }
+        tmp = tmp._next;
+      }
+    }
+  }
+
   void printFront() {
     node tmp = _vertex;
     while (tmp != null) {
@@ -170,14 +193,14 @@ class list {
       return;
     }
     var tmp = n;
-    this.tale._next = n;
-    n._prev = this.tale;
+    _tale._next = n;
+    n._prev = _tale;
     length++;
     while (tmp._next != null) {
       length++;
       tmp = tmp._next;
     }
-    this._tale = tmp;
+    _tale = tmp;
   }
 
   node operator [](index) {
@@ -202,4 +225,3 @@ class list {
   node _tale;
   int _length;
 }
-
