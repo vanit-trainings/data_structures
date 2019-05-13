@@ -92,16 +92,26 @@ list.prototype.clear = function () {
 }
 
 list.prototype.insert = function (node, node2) {
-		if (!this.isEmpty() && this.length > 1) {
-		if(node2.prev === null){
-			node2.prev = node;
-			node2.prev.next = node2;
-			node.prev === null;
+		if (node) {
+		if(node2 === null) {
+			if(this.length === 0) {
+				this.first = node;
+				this.last = node;
+				node.prev = null;
+				node.next = null;
+			}
+			else {
+				this.first.prev = node;
+				node.next = this.first;
+				node.prev = null;
+				this.first = node;
+			}
 	}
-	else if (node2.next === null) {
-		node2.next = node;
-		node2.next.prev = node2;
-		node.next === null;
+	else if (node2 === this.last) {
+		this.last.next = node;
+		node.prev = this.last;
+		node.next = null;
+		this.last = node;
 	}
 	else {
 		node2.next.prev = node;
@@ -109,86 +119,68 @@ list.prototype.insert = function (node, node2) {
 		node.prev = node2;
 		node2.next = node;
 	}
-  } 
   this.length++; 
+  } 
 }
 list.prototype.remove = function (node) {
-	if (!this.isEmpty() && this.length > 1) {
-		if(node.prev === null) {
-			node.next.prev === null; 
-		}
-		else if (node.next === null) {
-			node.prev.next === null; 
-		}
+	if (!this.isEmpty()) {
+		if(node === this.first) {
+			this.popFront();
+					}
+		else if (node === this.last) {
+			this.popBack();
+					}
 		else {
 			node.prev.next = node.next; 
 			node.next.prev = node.prev;
+			this.length--;
 					}
 	}
-	this.length--;
 }
 
-list.prototype.swap = function (node, node2) {
-	this.node = new node (); 
-	this.node2 = new node (); 
-		let tempNode = node;
-		if (!this.isEmpty() && this.length > 1) {
-this.insert (node2, node);
-this.insert (tempNode, node2);
-this.remove (node2);
-this.remove (node);
-    }
-}
-
-list.prototype.swaping = function (begin, end) {
-	console.log("swaping1");
+list.prototype.swaping = function (begin, end) {	
 	if (begin == null || begin === end) {
 		return;
 	}
-	console.log("swaping1");
-	let pivot = begin;
+		let pivot = begin;
 	let current = begin.next;
-	while (current != end) {
+	while (current != end.next) {
 		let tmp = current.next;
 		if (current.value < pivot.value) {
-			if (current.next) {
-				current.next.prev = current.prev;
+			if (current === end) {
+				end = end.prev;
 			}
-			if (current.prev) {
-				current.prev.next = current.next;
-			}
-			current.next = begin;
-			current.prev = begin.prev;
-			if (begin.prev) {
-				begin.prev.next = current;
-			}
-			begin.prev = current;
-			begin = current;
+			let tmp2 = Object.assign({}, current);
+			this.insert(tmp2, begin.prev);
+			this.remove(current);
+			begin = begin.prev;
 		}
 		current = tmp;
 	}
-	return pivot;
+	return { pivot: pivot, begin: begin, end: end };
 }
 
 list.prototype.quick_sort = function (b, e) {
-	if (b == null || b.next === e) {
-		console.log ('quick_sort 1');
+	if (b === null || e === null || b === e) {
+			return;
+	}
+	let pi = this.swaping(b, e);
+	let p = pi.pivot;
+	b = pi.begin;
+	e = pi.end;
+		if (p === null ) {
 		return;
 	}
-	p = this.swaping(b, e);
-	if (p == null) {
-console.log ('quick_sort 2');
-		return;
+	if (p.prev != b && b != p ) {		
+		this.quick_sort(b, p.prev);
 	}
-console.log ('quick_sort 3');
-	this.quick_sort(b, p.next);
-	this.quick_sort(p.next, e);
+	if (p!= e && p.next != e) {		
+		this.quick_sort(p.next, e);
+	}
 }
 
 list.prototype.sort = function () {
-	console.log("first", this.first);
-	console.log("last", this.last);
-	this.quick_sort(this.first, this.last.next);
+	this.quick_sort(this.first, this.last);
 }
 
 
@@ -204,9 +196,12 @@ test.pushBack(26);
 test.pushBack(123);
 test.pushBack(43);
 test.print();
-console.log ('sort');
 test.sort();
-test.print();
+console.log('xxxxxxxx');
+ test.print();
+
+
+
 
 
 
