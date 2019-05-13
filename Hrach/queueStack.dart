@@ -1,3 +1,4 @@
+import 'stack.dart';
 class node {
   node(value) {
     _prev = null;
@@ -50,7 +51,7 @@ class queueStack {
   }
 
   bool isEmpty() {
-     return _container1._length == 0 && _container2._length == 0;
+     return _container1.length == 0 && _container2.length == 0;
   }
 
   void printAll() {

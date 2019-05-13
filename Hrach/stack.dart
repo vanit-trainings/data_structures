@@ -56,6 +56,7 @@ class stack {
     }
   }
 
+  get length => _length;
   node _vertex;
   int _length;
 }
