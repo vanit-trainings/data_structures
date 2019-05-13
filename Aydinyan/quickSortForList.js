@@ -172,9 +172,9 @@ class list {
                     node.next = pr.next;
                     pr.next = node;
                     node.prev = pr;
-                    this.length++;
                 }
             }
+            this.length++;
         }
     }
 
@@ -200,8 +200,8 @@ class list {
 function partSort (lis, begin, end) {
     let pivot = begin;
     let curr = begin.next;
-    while (curr && curr != end.next) {
-        let tmp1 = Object.assign({}, curr);
+    while (curr != end.next) {
+        let tmp1 = curr.next;
         if (curr.value < pivot.value) {
             let tmp2 = Object.assign({}, curr);
             if(curr == end) {
@@ -211,7 +211,7 @@ function partSort (lis, begin, end) {
             lis.insertNode(tmp2, begin.prev);
             begin = begin.prev;
         }
-        curr = tmp1.next;
+        curr = tmp1;
     }
     return { pivot: pivot, begin: begin, end: end };
 }
