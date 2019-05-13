@@ -55,6 +55,35 @@ class list {
     return front;
   }
 
+  node pushNodeByFront(node n) {
+    if(isEmpty()){
+      _vertex = n;
+      _tale = n;
+    }
+    else {
+      n.next = _vertex;
+      _vertex._prev = n;
+      _vertex = n;
+    }
+    _length++;
+    return _vertex;
+  }
+
+  node insertBeforeWithNode(node n, node before) {
+    if(isEmpty() || before == null || n == null) {
+      return null;
+    }
+    if(before == _vertex) {
+      return pushNodeByFront(n);
+    }
+    n.prev = before.prev;
+    before.prev.next = n;
+    n.next = before;
+    before.prev = n;
+    _length++;
+    return n;
+  }
+
   node insertBefore(node ins, int value) {
     if (ins == null) {
       return null;
@@ -109,36 +138,38 @@ class list {
     }
   }
 
-  void remove(index) {
+  node remove(index) {
     if (index < 0 || index >= _length) {
-      return;
+      return null;
     }
+      node tmp = _vertex;
     if (index == 0) {
       _vertex._next?._prev = null;
       _vertex = _vertex._next;
     } else if (index == _length - 1) {
       _tale._prev?._next = null;
+      tmp = _tale;
       _tale = _tale._prev;
     } else {
-      node tmp = _vertex;
       for (var i = 0; i < index; i++) {
         tmp = tmp._next;
       }
       tmp._next._prev = tmp._prev;
       tmp._prev._next = tmp._next;
-      tmp = null;
+      //tmp = null;
     }
     _length--;
+    return tmp;
   }
 
-  void removeNode(node lost) {
+  node removeNode(node lost) {
     if(lost == null) {
-      return;
+      return null;
     }
     if (lost == _vertex) {
-      remove(0);
+      return remove(0);
     } else if (lost == _tale) {
-      remove(this.length - 1);
+      return remove(this.length - 1);
     } else {
       node tmp = _vertex;
       //insurance,  complexity = O(n)
@@ -147,10 +178,11 @@ class list {
           tmp.prev.next = tmp.next;
           tmp.next.prev = tmp.prev;
           length--;
-          return;
+          return tmp;
         }
         tmp = tmp._next;
       }
+      return null;
     }
   }
 
