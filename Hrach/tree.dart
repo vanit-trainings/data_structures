@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 class node {
   node(value) {
@@ -35,7 +36,6 @@ class tree {
       _root = newNode;
     } else {
       node tmp = _root;
-      ;
       while (true) {
         if (newNode.value < tmp.value) {
           if (tmp.left != null) {
@@ -65,36 +65,73 @@ class tree {
     if (isEmpty()) {
       return null;
     }
-    node tmp = find(value);
-    node tmp1;
-
-    if(tmp == null) {
+    node delete = find(value);
+    node tmp;
+    if (delete == null) {
       return null;
     }
-    if (tmp.left != null) {
-       tmp1 = biggestNode(tmp.left);
-      if(tmp1.left !=null) {
-        tmp1.left.parent = tmp1.parent;
-        tmp1.parent.right = tmp1.left;
-      }
-      else {
-        tmp1.parent.right = null;
-      }
-      tmp.parent?.right = tmp1;
-      tmp1.parent = tmp.parent;
-      tmp.right?.parent = tmp1;
-      tmp1.right = tmp.right;
-      tmp.left.parent = tmp1;
-      tmp1.left = tmp.left;
 
+    if (delete == _root) {
+      tmp = biggestNode(_root.left);
 
-    }
-    else {
-        tmp.right.parent = tmp.parent;
-        tmp.parent?.right = tmp.right;
-    }
-    if(tmp == root){
-      _root = tmp1;
+      if (tmp == null) {
+        _root.right.parent == null;
+        _root = _root.right;
+      } else if (tmp == delete.left) {
+        tmp.right = delete.right;
+        delete.right?.parent = tmp;
+        _root = tmp;
+      } else {
+        tmp.parent.right = tmp.left;
+        tmp.left?.parent = tmp.parent;
+        delete.left.parent = tmp;
+        tmp.left = delete.left;
+        delete.right?.parent = tmp;
+        tmp.right = delete.right;
+        _root = tmp;
+      }
+    } else {
+      tmp = biggestNode(delete.left);
+
+      if (delete == delete.parent.right) {
+        if (tmp == null) {
+          delete.parent.right = delete.right;
+          delete.right?.parent = delete.parent;
+        } else if (tmp == delete.left) {
+          delete.parent.right = tmp;
+          tmp.parent = delete.parent;
+          delete.right?.parent = tmp;
+          tmp.right = delete.right;
+        } else {
+          tmp.parent.right = tmp.left;
+          tmp.left?.parent = tmp.parent;
+          delete.left.parent = tmp;
+          tmp.left = delete.left;
+          delete.parent.right = tmp;
+          tmp.parent = delete.parent;
+          delete.right?.parent = tmp;
+          tmp.right = delete.right;
+        }
+      } else {
+        if (tmp == null) {
+          delete.parent.left = delete.right;
+          delete.right?.parent = delete.parent;
+        } else if (tmp == delete.left) {
+          delete.parent.lrft = tmp;
+          tmp.parent = delete.parent;
+          delete.right?.parent = tmp;
+          tmp.right = delete.right;
+        } else {
+          tmp.parent.right = tmp.left;
+          tmp.left?.parent = tmp.parent;
+          delete.left.parent = tmp;
+          tmp.left = delete.left;
+          delete.parent.left = tmp;
+          tmp.parent = delete.parent;
+          delete.right?.parent = tmp;
+          tmp.right = delete.right;
+        }
+      }
     }
     _length--;
   }
@@ -103,7 +140,10 @@ class tree {
     return _length == 0;
   }
 
-  void clear() {}
+  void clear() {
+    _root = null;
+    _length = 0;
+  }
 
   node find(var value) {
     node tmp = _root;
@@ -119,7 +159,8 @@ class tree {
     }
     return null;
   }
-  node biggestNode (node root) {
+
+  node biggestNode(node root) {
     if (root == null) {
       return null;
     }
@@ -127,21 +168,54 @@ class tree {
       return root;
     }
     return biggestNode(root.right);
-  //  node tmp = root;
-  //  while(tmp.right != null) {
-  //    tmp = tmp.right;
-  //  }
-  //  return tmp;
+    //  node tmp = root;
+    //  while(tmp.right != null) {
+    //    tmp = tmp.right;
+    //  }
+    //  return tmp;
   }
 
-  void printa() {}
+  int leafQuantity(node r) {
+    if (r == null) {
+      return 0;
+    }
+    if (r.left == null && r.right == null) {
+      return 1;
+    }
+    return leafQuantity(r.left) + leafQuantity(r.right);
+  }
+
+  int depth(node r) {
+    if (r == null) {
+      return 0;
+    }
+    return 1 + max(depth(r.left), depth(r.right));
+  }
+
+  void printLevel(node r) {
+    if (r == null) {
+      return;
+    }
+    if (r == _root) {
+      print(r._value);
+    }
+    if (r._left != null) {
+      stdout.write(r._left._value.toString() + ' ');
+    }
+    if (r._right != null) {
+      stdout.write(r._right._value.toString() + ' ');
+    }
+    print("");
+    printLevel(r._left);
+    printLevel(r.right);
+  }
 
   void printt(node r) {
     if (r == null) {
       return;
     }
     printt(r.right);
-    stdout.write(r.value);
+    print(r.value);
     printt(r.left);
   }
 
@@ -149,7 +223,6 @@ class tree {
   get length => _length;
 
   set root(node r) => _root = r;
-  //set length(int l) => _length = l;
 
   node _root;
   int _length;
@@ -166,10 +239,15 @@ main(List<String> args) {
   t.insert(9);
   t.insert(10);
   t.insert(20);
-  t.printt(t.root);
+  t.insert(8);
+  t.insert(5);
+  //t.printLevel(t.root);
+  //print(t.leafQuantity(t.root));
+  print(t.depth(t.root));
 
-  print(t.find(8));
-  print(t.find(9));
-  t.remove(2);
-  t.printt(t.root);
+  // print(t.find(8));
+  // print(t.find(9));
+  // t.remove(4);
+  // t.remove(t.root.value);
+  // print(t.root.value);
 }
