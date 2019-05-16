@@ -37,7 +37,7 @@ tree.prototype.find = function (value) {
     }
 }
 
-tree.prototype.exist = function (value) {
+tree.prototype.isExist = function (value) {
     return this.find(value) !== undefined;
 }
 
@@ -72,22 +72,25 @@ tree.prototype.insert = function (value) {
     return newNode;
 }
 
-tree.prototype.biggestNode = function () {
-    
+tree.prototype.biggestNode = function (node) {
+    if (!node) {
+        return;
+    }
+    if (node.right === null) {
+        return node;
+    }
+    return this.biggestNode(node.right);
 }
 
-/*tree.prototype.remove = function (value) {
-    if (!this.root) {
+tree.prototype.smallestNode = function (node) {
+    if (!node) {
         return;
     }
-    let deletedNode = this.find(value);
-    if (!deletedNode) {
-        return;
+    if (node.left === null) {
+        return node;
     }
-    if () {
-
-    }
-}*/
+    return this.smallestNode(node.left);
+}
 
 tree.prototype.printInOrder = function (node) {
     if (!node) {
@@ -151,3 +154,4 @@ bst.insert(26);
 bst.printInDescendingOrder(bst.root);
 console.log(bst.leafCount(bst.root));
 console.log(bst.depth(bst.root))
+console.log(bst.smallestNode(bst.root))
