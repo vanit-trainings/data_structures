@@ -72,6 +72,23 @@ tree.prototype.insert = function (value) {
     return newNode;
 }
 
+tree.prototype.biggestNode = function () {
+    
+}
+
+/*tree.prototype.remove = function (value) {
+    if (!this.root) {
+        return;
+    }
+    let deletedNode = this.find(value);
+    if (!deletedNode) {
+        return;
+    }
+    if () {
+
+    }
+}*/
+
 tree.prototype.printInOrder = function (node) {
     if (!node) {
         return;
@@ -89,12 +106,39 @@ tree.prototype.printInOrder = function (node) {
     this.printInOrder(node.right);
 }
 
-tree.prototype.printInAscendingOrder = function () {
-
+tree.prototype.printInAscendingOrder = function (node) {
+    if (!node) {
+        return;
+      }
+    this.printInAscendingOrder(node.right);
+    console.log(node.data);
+    this.printInAscendingOrder(node.left);
 }
 
-tree.prototype.printInDescendingOrder = function () {
+tree.prototype.printInDescendingOrder = function (node) {
+    if (!node) {
+        return;
+    }
+    this.printInDescendingOrder(node.left);
+    console.log(node.data);
+    this.printInDescendingOrder(node.right);
+}
 
+tree.prototype.depth = function (node) {
+    if (!node) {
+        return 0;
+    }
+    return 1 + Math.max(this.depth(node.left), this.depth(node.right));
+}
+
+tree.prototype.leafCount = function (node) {
+    if (!node) {
+        return 0;
+    }
+    if (node.left === null && node.right === null) {
+        return 1;
+    }
+    return this.leafCount(node.left) + this.leafCount(node.right);
 }
 
 var bst = new tree();
@@ -102,4 +146,8 @@ bst.insert(30);
 bst.insert(45);
 bst.insert(25);
 bst.insert(16);
-bst.print(bst.root);
+bst.insert(28);
+bst.insert(26);
+bst.printInDescendingOrder(bst.root);
+console.log(bst.leafCount(bst.root));
+console.log(bst.depth(bst.root))
