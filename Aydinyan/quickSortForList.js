@@ -203,12 +203,11 @@ function partSort (lis, begin, end) {
     while (curr != end.next) {
         let tmp1 = curr.next;
         if (curr.value < pivot.value) {
-            let tmp2 = Object.assign({}, curr);
             if(curr == end) {
                 end = end.prev;
             }
             lis.removeNode(curr);
-            lis.insertNode(tmp2, begin.prev);
+            lis.insertNode(curr, begin.prev);
             begin = begin.prev;
         }
         curr = tmp1;
