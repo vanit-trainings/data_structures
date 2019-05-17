@@ -1,7 +1,9 @@
 var node = function (val) {
     this.value = val;
+    this.parent = null;
     this.right = null;
     this.left = null;
+
 }
 
 var tree = function () {
@@ -86,7 +88,7 @@ tree.prototype.remove = function (value) {
 }
 
 tree.prototype.removeNodeValue = function (node, value) {
-     if (value < node.value) {
+    if (value < node.value) {
         node.left = this.removeNodeValue(node.left, value);
         return node;
     }
@@ -107,19 +109,59 @@ tree.prototype.removeNodeValue = function (node, value) {
             node = node.right;
             return node;
         }
-        var minimum = this.findMinimum(node.right);
+        var minimum = this.findMinimumValue(node.right);
         node.value = minimum.value;
         node.right = this.removeNodeValue(node.right, minimum.value);
         return node;
     }
 }
-tree.prototype.findMinimum = function (node) {
+tree.prototype.findMinimumValue = function (node) {
     if (node.left === null) {
         return node;
     }
-    else return this.findMinimum(node.left);
+    else return this.findMinimumValue(node.left);
 }
 
+tree.prototype.print = function (root) {
+    return this.printAllValues(root);
+}
+
+tree.prototype.printAllValues = function (node) {
+    if (node === null) {
+        return;
+    }
+    console.log(node.value);
+    this.printAllValues(node.right);
+    this.printAllValues(node.left);
+    return node;
+}
+
+tree.prototype.depth = function (node) {
+    if (this.isEmpty()) {
+        return;
+    }
+    else {
+        return this.maximumDepth(node, 1);
+    }
+}
+
+tree.prototype.maximumDepth = function (node, number) {
+    if (node.left === null && node.right === null) {
+        return number;
+    }
+    else if (node.left && node.right) {
+        number++;
+        return Math.max(this.maximumDepth(node.left, number), this.maximumDepth(node.right, number));
+    }
+    else if (node.left !== null) {
+        number++;
+        return this.maximumDepth(node.left, number);
+    }
+    else if (node.right !== null) {
+        number++;
+        return this.maximumDepth(node.right, number);
+    }
+}
 
 var test = new tree();
 test.insert(15);
@@ -133,14 +175,13 @@ test.insert(22);
 test.insert(27);
 test.insert(17);
 test.insert(18);
+test.print(test.root);
+console.log(test.depth(test.root));
 
 console.log(test.size());
 console.log(test.find(11678));
 console.log(test.find(27));
 console.log('roots' + '=' + test.root.value);
-test.remove(15);
-console.log('root' + '=' + test.root.value); 
+console.log(test.remove(15));
+console.log('newroot' + '=' + test.root.value);
 console.log(test.root.right.value);
-test.remove(7);
-console.log('root' + '=' + test.root.value); 
-console.log(test.root.left.value);
