@@ -279,13 +279,13 @@ t.insert(65);
 //console.log('xxxxxxxxx');
 //t.printAscending();
 //console.log('xxxxxxxxx');
-//t.remove(2);
+//t.remove(65);
 //console.log(t.size());
 //console.log('xxxxxxxxx');
 //t.printDescending();
 //console.log('xxxxxxxxx');
 //t.printAscending();
-//t.printAscending();
+//console.log('xxxxxxxxx');
 t.printLevels();
 // console.log('xxxxxxxxx');
 // console.log(t.getLevelsCount())

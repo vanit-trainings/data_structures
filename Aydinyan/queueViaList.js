@@ -199,4 +199,4 @@ queue.prototype.clear = function() {
 // q.pop();
 // console.log('size = ' + q.size());
 
-module.exports = queue;
+module.exports = queue();
