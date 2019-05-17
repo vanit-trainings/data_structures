@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'Queue.dart';
+
 class node {
   node(value) {
     _left = null;
@@ -196,18 +198,20 @@ class tree {
     if (r == null) {
       return;
     }
-    if (r == _root) {
-      print(r._value);
+    Queue q = new Queue();
+    q.push(r);
+    node tmp;
+    while (!q.isEmpty()) {
+      tmp = q.top();
+      print(tmp.value);
+      q.pop();
+      if (tmp._left != null) {
+        q.push(tmp._left);
+      }
+      if (tmp._right != null) {
+        q.push(tmp._right);
+      }
     }
-    if (r._left != null) {
-      stdout.write(r._left._value.toString() + ' ');
-    }
-    if (r._right != null) {
-      stdout.write(r._right._value.toString() + ' ');
-    }
-    print("");
-    printLevel(r._left);
-    printLevel(r.right);
   }
 
   void printt(node r) {
@@ -230,20 +234,26 @@ class tree {
 
 main(List<String> args) {
   tree t = new tree();
-  t.insert(4);
-  t.insert(6);
-  t.insert(7);
-  t.insert(2);
-  t.insert(3);
-  t.insert(1);
-  t.insert(9);
-  t.insert(10);
-  t.insert(20);
-  t.insert(8);
-  t.insert(5);
-  //t.printLevel(t.root);
+  t.insert(30);
+  t.insert(45);
+  t.insert(25);
+  t.insert(16);
+  t.insert(28);
+  t.insert(26);
+  t.insert(18);
+  t.insert(17);
+  t.insert(35);
+  t.insert(50);
+  t.insert(38);
+  t.insert(48);
+  t.insert(60);
+  t.insert(37);
+  t.insert(40);
+  t.insert(65);
+
+  t.printLevel(t.root);
   //print(t.leafQuantity(t.root));
-  print(t.depth(t.root));
+  //print(t.depth(t.root));
 
   // print(t.find(8));
   // print(t.find(9));
