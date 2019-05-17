@@ -24,7 +24,7 @@ tree.prototype.find = function (value) {
         return;
     } else {
         var tmp = this.root;
-        for (tmp; tmp !== null; ) {
+        for (tmp; tmp !== null;) {
             if (tmp.data < value) {
                 tmp = tmp.right;
             } else if (tmp.data > value) {
@@ -92,39 +92,145 @@ tree.prototype.smallestNode = function (node) {
     return this.smallestNode(node.left);
 }
 
-tree.prototype.printInOrder = function (node) {
-    if (!node) {
+tree.prototype.remove = function (value) {
+    let deletedNode = this.find(value);
+    if (!deletedNode) {
         return;
     }
-    if (node === this.root) {
-        console.log(this.root.data)
+    let tmp;
+    if (value === this.root.data) {
+        tmp = this.biggestNode(this.root.left);
+        if (!tmp) {
+            this.root.right.parent = null;
+            this.root = this.root.right;
+        } else if (tmp === deletedNode.left) {
+            tmp.right = deletedNode.right;
+            if (deletedNode.right) {
+                deletedNode.right.parent = tmp;
+            }
+            this.root = tmp;
+        } else {
+
+            if (tmp.left) {
+
+                tmp.left.parent = tmp.parent;
+            }
+            tmp.parent.right = tmp.left;
+            deletedNode.left.parent = tmp;
+            tmp.left = deletedNode.left;
+            if (deletedNode.right) {
+                deletedNode.right.parent = tmp;
+            }
+            tmp.right = deletedNode.right;
+            this.root = tmp;
+        }
+    } else if (deletedNode === deletedNode.parent.left) {
+        tmp = this.biggestNode(deletedNode.left);
+        if (!tmp) {
+            deletedNode.parent.left = deletedNode.right;
+            if (deletedNode.right) {
+                deletedNode.right.parent = deletedNode.parent;
+            }
+        } else if (tmp === deletedNode.left) {
+            tmp.parent = deletedNode.parent;
+            deletedNode.parent.left = tmp;
+            tmp.right = deletedNode.right;
+            if (deletedNode.right) {
+                deletedNode.right.parent = tmp;
+            }
+        } else {
+            tmp.parent.right = tmp.left;
+            if (tmp.left) {
+                tmp.left.parent = tmp.parent;
+            }
+            tmp.right = deletedNode.right;
+            if (deletedNode.right) {
+                deletedNode.right.parent = tmp;
+            }
+            deletedNode.parent.left = tmp;
+            tmp.parent = deletedNode.parent;
+            tmp.left = deletedNode.left;
+            deletedNode.left.parent = tmp;
+        }
+    } else {
+        tmp = this.biggestNode(deletedNode.left);
+        if (!tmp) {
+            deletedNode.parent.right = deletedNode.right;
+            if (deletedNode.right) {
+                deletedNode.right.parent = deletedNode.parent;
+            }
+        } else if (tmp === deletedNode.left) {
+            deletedNode.parent.right = deletedNode.left;
+            deletedNode.left.parent = deletedNode.parent;
+            tmp.right = deletedNode.right;
+            if (deletedNode.right) {
+                deletedNode.right.parent = tmp;
+            }
+        } else {
+            tmp.parent.right = tmp.left;
+            if (tmp.left) {
+                tmp.left.parent = tmp.parent;
+            }
+            tmp.right = deletedNode.right;
+            if (deletedNode.right) {
+                deletedNode.right.parent = tmp;
+            }
+            deletedNode.parent.right = tmp;
+            tmp.parent = deletedNode.parent;
+            tmp.left = deletedNode.left;
+            deletedNode.left.parent = tmp;
+        }
     }
-    if (node.left !== null) {
-        console.log(node.left.data);
-    }
-    if (node.right !== null) {
-        console.log(node.right.data);
-    }
-    this.printInOrder(node.left);
-    this.printInOrder(node.right);
 }
 
-tree.prototype.printInAscendingOrder = function (node) {
+tree.prototype.printLeaf = function (node) {
     if (!node) {
         return;
-      }
-    this.printInAscendingOrder(node.right);
-    console.log(node.data);
-    this.printInAscendingOrder(node.left);
+    }
+    if (!node.left && !node.right) {
+        console.log(node.data);
+    } else {
+        this.printLeaf(node.left);
+        this.printLeaf(node.right);
+    }
+}
+
+tree.prototype.print = function (root, level) {
+    if (!root) {
+        return;
+    }
+    if (level === 1) {
+        console.log(root.data);
+    } else if (level > 1) {
+        this.print(root.left, level - 1);
+        this.print(root.right, level - 1);
+    }
+}
+
+tree.prototype.printInOrder = function (root) {
+    let height = this.depth(root);
+    for (let i = 1; i <= height; ++i) {
+        this.print(root, i);
+    }
 }
 
 tree.prototype.printInDescendingOrder = function (node) {
     if (!node) {
         return;
     }
-    this.printInDescendingOrder(node.left);
-    console.log(node.data);
     this.printInDescendingOrder(node.right);
+    console.log(node.data);
+    let level = this.depth(node);
+    this.printInDescendingOrder(node.left);
+}
+
+tree.prototype.printInAscendingOrder = function (node) {
+    if (!node) {
+        return;
+    }
+    this.printInAscendingOrder(node.left);
+    console.log(node.data);
+    this.printInAscendingOrder(node.right);
 }
 
 tree.prototype.depth = function (node) {
@@ -151,7 +257,23 @@ bst.insert(25);
 bst.insert(16);
 bst.insert(28);
 bst.insert(26);
-bst.printInDescendingOrder(bst.root);
-console.log(bst.leafCount(bst.root));
-console.log(bst.depth(bst.root))
-console.log(bst.smallestNode(bst.root))
+bst.insert(18);
+bst.insert(17);
+bst.insert(35);
+bst.insert(50);
+bst.insert(38);
+bst.insert(48);
+bst.insert(60);
+bst.insert(37);
+bst.insert(40);
+bst.insert(65)
+//bst.printInOrder(bst.root)
+bst.printLeaf(bst.root)
+bst.remove(40);
+console.log('***************************')
+bst.printLeaf(bst.root)
+//bst.printInOrder(bst.root)
+//bst.printInDescendingOrder(bst.root);
+//console.log(bst.leafCount(bst.root));
+//console.log(bst.depth(bst.root))
+//console.log(bst.smallestNode(bst.root))
