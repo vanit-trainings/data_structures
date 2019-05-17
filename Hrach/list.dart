@@ -55,8 +55,36 @@ class list {
     return front;
   }
 
+  node pushNodeByFront(node n) {
+    if (isEmpty()) {
+      _vertex = n;
+      _tale = n;
+    } else {
+      n.next = _vertex;
+      _vertex._prev = n;
+      _vertex = n;
+    }
+    _length++;
+    return _vertex;
+  }
+
+  node insertBeforeWithNode(node n, node before) {
+    if (isEmpty() || before == null || n == null) {
+      return null;
+    }
+    if (before == _vertex) {
+      return pushNodeByFront(n);
+    }
+    n.prev = before.prev;
+    before.prev.next = n;
+    n.next = before;
+    before.prev = n;
+    _length++;
+    return n;
+  }
+
   node insertBefore(node ins, int value) {
-    if(ins == null) {
+    if (ins == null) {
       return null;
     }
     node tmp = node(value);
@@ -71,7 +99,7 @@ class list {
   }
 
   node insertAfter(node ins, int value) {
-    if(ins == null) {
+    if (ins == null) {
       return null;
     }
     node tmp = node(value);
@@ -86,49 +114,75 @@ class list {
   }
 
   node insertByIndex(index, value) {
-    if (index < _length && index >= 0) {
-      if (index == 0) {
-        return pushFront(value);
-      } else if (index == _length - 1) {
-        return pushBack(value);
-      } else {
-        var ins = node(value);
-        node tmp = _vertex;
-        for (var i = 0; i < index; i++) {
-          tmp = tmp._next;
-        }
-        tmp._prev._next = ins;
-        ins._prev = tmp._prev;
-        tmp._prev = ins;
-        ins._next = tmp;
-        _length++;
-        return ins;
-      }
-    } else {
+    if (index < 0 ||
+        (!isEmpty() && index >= length + 1) ||
+        (isEmpty() && index != 0)) {
       return null;
     }
+    if (index == 0) {
+      return pushFront(value);
+    }
+    if (index == _length) {
+      return pushBack(value);
+    }
+    var ins = node(value);
+    node tmp = _vertex;
+    for (var i = 0; i < index; i++) {
+      tmp = tmp._next;
+    }
+    tmp._prev._next = ins;
+    ins._prev = tmp._prev;
+    tmp._prev = ins;
+    ins._next = tmp;
+    _length++;
+    return ins;
   }
 
-  void remove(index) {
+  node remove(index) {
     if (index < 0 || index >= _length) {
-      return;
+      return null;
     }
+    node tmp = _vertex;
     if (index == 0) {
       _vertex._next?._prev = null;
       _vertex = _vertex._next;
     } else if (index == _length - 1) {
       _tale._prev?._next = null;
+      tmp = _tale;
       _tale = _tale._prev;
     } else {
-      node tmp = _vertex;
       for (var i = 0; i < index; i++) {
         tmp = tmp._next;
       }
       tmp._next._prev = tmp._prev;
       tmp._prev._next = tmp._next;
-      tmp = null;
     }
     _length--;
+    return tmp;
+  }
+
+  node removeNode(node lost) {
+    if (lost == null) {
+      return null;
+    }
+    if (lost == _vertex) {
+      return remove(0);
+    } else if (lost == _tale) {
+      return remove(this.length - 1);
+    } else {
+      node tmp = _vertex;
+      //insurance,  complexity = O(n)
+      while (tmp != null) {
+        if (tmp == lost) {
+          tmp.prev.next = tmp.next;
+          tmp.next.prev = tmp.prev;
+          length--;
+          return tmp;
+        }
+        tmp = tmp._next;
+      }
+      return null;
+    }
   }
 
   void printFront() {
@@ -156,6 +210,9 @@ class list {
   }
 
   void clear() {
+    if (isEmpty()) {
+      return;
+    }
     while (_vertex._next != null) {
       _vertex = _vertex._next;
       _vertex._prev = null;
@@ -170,17 +227,17 @@ class list {
       return;
     }
     var tmp = n;
-    this.tale._next = n;
-    n._prev = this.tale;
+    _tale._next = n;
+    n._prev = _tale;
     length++;
     while (tmp._next != null) {
       length++;
       tmp = tmp._next;
     }
-    this._tale = tmp;
+    _tale = tmp;
   }
 
-  node operator [](index) {
+  dynamic operator [](index) {
     if (index < 0 || index >= _length) {
       return null;
     }
@@ -188,7 +245,7 @@ class list {
     for (int i = 0; i < index; i++) {
       tmp = tmp._next;
     }
-    return tmp;
+    return tmp._value;
   }
 
   get vertex => _vertex;
@@ -202,4 +259,3 @@ class list {
   node _tale;
   int _length;
 }
-
