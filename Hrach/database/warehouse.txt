@@ -1,0 +1,23 @@
+create database warehouse; { use warehouse; }
+
+create table storage (id serial primary key, name varchar(20) not null, address varchar(50) not null unique, volume float not null, workinghoursstart time not null, workinghoursend time not null);
+
+create table staff (id serial primary key, name varchar(20) not null);
+
+create table points (id serial primary key, name varchar(20) not null);
+
+create table workers (id serial primary key, name varchar(20) not null, surname varchar(20), birth_date date not null, address varchar(50) not null, phone varchar(20) not null unique, email varchar(35) not null unique, salary float not null, staff int not null, foreign key(staff) references staff(id));
+
+create table producers (id serial primary key, name varchar(20) not null, address varchar(50) not null, phone varchar(20) not null unique, email varchar(35) not null unique, web_page varchar(30) not null);
+
+create table customers (id serial primary key, name varchar(20) not null, address varchar(50) not null, phone varchar(20) not null unique, email varchar(35) not null unique, web_page varchar(30));
+
+create table product (id serial primary key, name varchar(20) not null, measurement_unit int not null, expire_date date not null, unit_weight float not null, unit_volume float not null, unit_medium_price float not null, production_date date not null, producer int not null, foreign key(measurement_unit) references points(id), foreign key(producer) references producers(id));
+
+create table entrance (id serial primary key, date_time timestamp not null, product int not null, producer int not null, quantity float not null, price float not null, storage int not null, reciver int not null, foreign key(product) references product(id), foreign key(producer) references producers(id), foreign key(storage) references storage(id), foreign key(reciver) references workers(id));
+
+create table exit (id serial primary key, date_time timestamp not null, product int not null, customer int not null, quantity float not null, price float not null, storage int not null, sender int not null, foreign key(product) references product(id), foreign key(customer) references customers(id), foreign key(storage) references storage(id), foreign key(sender) references workers(id));
+ 
+create table communication (worker_id int not null, storage_id int not null, foreign key(worker_id) references workers(id), foreign key(storage_id) references storage(id));
+
+create table products (producer_id int not null, product_id int not null, foreign key(producer_id) references producers(id), foreign key(product_id) references product(id));
