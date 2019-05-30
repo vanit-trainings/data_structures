@@ -72,6 +72,115 @@ ALTER SEQUENCE public.costumer_id_seq OWNED BY public.costumer.id;
 
 
 --
+-- Name: deliveris; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.deliveris (
+    id integer NOT NULL,
+    date_day date NOT NULL,
+    product_id integer NOT NULL,
+    costumer_id integer NOT NULL,
+    quantity integer NOT NULL,
+    point_id integer NOT NULL,
+    worker_id integer NOT NULL,
+    delivery_price double precision NOT NULL,
+    storage_id integer NOT NULL
+);
+
+
+ALTER TABLE public.deliveris OWNER TO postgres;
+
+--
+-- Name: deliveris_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.deliveris_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.deliveris_id_seq OWNER TO postgres;
+
+--
+-- Name: deliveris_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.deliveris_id_seq OWNED BY public.deliveris.id;
+
+
+--
+-- Name: occupation; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.occupation (
+    id integer NOT NULL,
+    name character varying NOT NULL
+);
+
+
+ALTER TABLE public.occupation OWNER TO postgres;
+
+--
+-- Name: occupation_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.occupation_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.occupation_id_seq OWNER TO postgres;
+
+--
+-- Name: occupation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.occupation_id_seq OWNED BY public.occupation.id;
+
+
+--
+-- Name: points; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.points (
+    id integer NOT NULL,
+    name character varying NOT NULL
+);
+
+
+ALTER TABLE public.points OWNER TO postgres;
+
+--
+-- Name: points_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.points_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.points_id_seq OWNER TO postgres;
+
+--
+-- Name: points_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.points_id_seq OWNED BY public.points.id;
+
+
+--
 -- Name: producer; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -107,6 +216,100 @@ ALTER TABLE public.producer_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.producer_id_seq OWNED BY public.producer.id;
+
+
+--
+-- Name: producer_product; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.producer_product (
+    producer_id integer NOT NULL,
+    product_id integer NOT NULL
+);
+
+
+ALTER TABLE public.producer_product OWNER TO postgres;
+
+--
+-- Name: products; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.products (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    point_id integer NOT NULL,
+    expiration_date date NOT NULL,
+    point_weight double precision NOT NULL,
+    point_volume_m3 double precision NOT NULL,
+    production_date date NOT NULL,
+    producer_id integer NOT NULL,
+    product_overage_price double precision NOT NULL
+);
+
+
+ALTER TABLE public.products OWNER TO postgres;
+
+--
+-- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.products_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.products_id_seq OWNER TO postgres;
+
+--
+-- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.products_id_seq OWNED BY public.products.id;
+
+
+--
+-- Name: recieve; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.recieve (
+    id integer NOT NULL,
+    date_day date NOT NULL,
+    product_id integer NOT NULL,
+    producer_id integer NOT NULL,
+    quantity integer NOT NULL,
+    point_id integer NOT NULL,
+    worker_id integer NOT NULL,
+    recieve_price double precision NOT NULL,
+    storage_id integer NOT NULL
+);
+
+
+ALTER TABLE public.recieve OWNER TO postgres;
+
+--
+-- Name: recieve_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.recieve_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.recieve_id_seq OWNER TO postgres;
+
+--
+-- Name: recieve_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.recieve_id_seq OWNED BY public.recieve.id;
 
 
 --
@@ -148,10 +351,84 @@ ALTER SEQUENCE public.storage_id_seq OWNED BY public.storage.id;
 
 
 --
+-- Name: worker_storage; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.worker_storage (
+    worker_id integer NOT NULL,
+    storage_id integer NOT NULL
+);
+
+
+ALTER TABLE public.worker_storage OWNER TO postgres;
+
+--
+-- Name: workers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.workers (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    surname character varying NOT NULL,
+    birthdate date NOT NULL,
+    address character varying NOT NULL,
+    phone character varying NOT NULL,
+    email character varying NOT NULL,
+    salary double precision NOT NULL,
+    occupation_id integer NOT NULL
+);
+
+
+ALTER TABLE public.workers OWNER TO postgres;
+
+--
+-- Name: workers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.workers_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.workers_id_seq OWNER TO postgres;
+
+--
+-- Name: workers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.workers_id_seq OWNED BY public.workers.id;
+
+
+--
 -- Name: costumer id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.costumer ALTER COLUMN id SET DEFAULT nextval('public.costumer_id_seq'::regclass);
+
+
+--
+-- Name: deliveris id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.deliveris ALTER COLUMN id SET DEFAULT nextval('public.deliveris_id_seq'::regclass);
+
+
+--
+-- Name: occupation id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.occupation ALTER COLUMN id SET DEFAULT nextval('public.occupation_id_seq'::regclass);
+
+
+--
+-- Name: points id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.points ALTER COLUMN id SET DEFAULT nextval('public.points_id_seq'::regclass);
 
 
 --
@@ -162,10 +439,31 @@ ALTER TABLE ONLY public.producer ALTER COLUMN id SET DEFAULT nextval('public.pro
 
 
 --
+-- Name: products id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.products_id_seq'::regclass);
+
+
+--
+-- Name: recieve id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.recieve ALTER COLUMN id SET DEFAULT nextval('public.recieve_id_seq'::regclass);
+
+
+--
 -- Name: storage id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.storage ALTER COLUMN id SET DEFAULT nextval('public.storage_id_seq'::regclass);
+
+
+--
+-- Name: workers id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.workers ALTER COLUMN id SET DEFAULT nextval('public.workers_id_seq'::regclass);
 
 
 --
@@ -177,6 +475,30 @@ ALTER TABLE ONLY public.costumer
 
 
 --
+-- Name: deliveris deliveris_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.deliveris
+    ADD CONSTRAINT deliveris_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: occupation occupation_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.occupation
+    ADD CONSTRAINT occupation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: points points_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.points
+    ADD CONSTRAINT points_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: producer producer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -185,11 +507,171 @@ ALTER TABLE ONLY public.producer
 
 
 --
+-- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: recieve recieve_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.recieve
+    ADD CONSTRAINT recieve_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: storage storage_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.storage
     ADD CONSTRAINT storage_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: workers workers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.workers
+    ADD CONSTRAINT workers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: deliveris deliveris_costumer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.deliveris
+    ADD CONSTRAINT deliveris_costumer_id_fkey FOREIGN KEY (costumer_id) REFERENCES public.costumer(id);
+
+
+--
+-- Name: deliveris deliveris_point_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.deliveris
+    ADD CONSTRAINT deliveris_point_id_fkey FOREIGN KEY (point_id) REFERENCES public.points(id);
+
+
+--
+-- Name: deliveris deliveris_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.deliveris
+    ADD CONSTRAINT deliveris_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id);
+
+
+--
+-- Name: deliveris deliveris_storage_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.deliveris
+    ADD CONSTRAINT deliveris_storage_id_fkey FOREIGN KEY (storage_id) REFERENCES public.storage(id);
+
+
+--
+-- Name: deliveris deliveris_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.deliveris
+    ADD CONSTRAINT deliveris_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.workers(id);
+
+
+--
+-- Name: producer_product producer_product_producer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.producer_product
+    ADD CONSTRAINT producer_product_producer_id_fkey FOREIGN KEY (producer_id) REFERENCES public.producer(id);
+
+
+--
+-- Name: producer_product producer_product_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.producer_product
+    ADD CONSTRAINT producer_product_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id);
+
+
+--
+-- Name: products products_point_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_point_id_fkey FOREIGN KEY (point_id) REFERENCES public.points(id);
+
+
+--
+-- Name: products products_producer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_producer_id_fkey FOREIGN KEY (producer_id) REFERENCES public.producer(id);
+
+
+--
+-- Name: recieve recieve_point_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.recieve
+    ADD CONSTRAINT recieve_point_id_fkey FOREIGN KEY (point_id) REFERENCES public.points(id);
+
+
+--
+-- Name: recieve recieve_producer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.recieve
+    ADD CONSTRAINT recieve_producer_id_fkey FOREIGN KEY (producer_id) REFERENCES public.producer(id);
+
+
+--
+-- Name: recieve recieve_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.recieve
+    ADD CONSTRAINT recieve_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id);
+
+
+--
+-- Name: recieve recieve_storage_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.recieve
+    ADD CONSTRAINT recieve_storage_id_fkey FOREIGN KEY (storage_id) REFERENCES public.storage(id);
+
+
+--
+-- Name: recieve recieve_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.recieve
+    ADD CONSTRAINT recieve_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.workers(id);
+
+
+--
+-- Name: worker_storage worker_storage_storage_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.worker_storage
+    ADD CONSTRAINT worker_storage_storage_id_fkey FOREIGN KEY (storage_id) REFERENCES public.storage(id);
+
+
+--
+-- Name: worker_storage worker_storage_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.worker_storage
+    ADD CONSTRAINT worker_storage_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.workers(id);
+
+
+--
+-- Name: workers workers_occupation_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.workers
+    ADD CONSTRAINT workers_occupation_id_fkey FOREIGN KEY (occupation_id) REFERENCES public.occupation(id);
 
 
 --
