@@ -56,11 +56,10 @@ class list {
   }
 
   node pushNodeByFront(node n) {
-    if(isEmpty()){
+    if (isEmpty()) {
       _vertex = n;
       _tale = n;
-    }
-    else {
+    } else {
       n.next = _vertex;
       _vertex._prev = n;
       _vertex = n;
@@ -70,10 +69,10 @@ class list {
   }
 
   node insertBeforeWithNode(node n, node before) {
-    if(isEmpty() || before == null || n == null) {
+    if (isEmpty() || before == null || n == null) {
       return null;
     }
-    if(before == _vertex) {
+    if (before == _vertex) {
       return pushNodeByFront(n);
     }
     n.prev = before.prev;
@@ -115,34 +114,35 @@ class list {
   }
 
   node insertByIndex(index, value) {
-    if (index < _length && index >= 0) {
-      if (index == 0) {
-        return pushFront(value);
-      } else if (index == _length - 1) {
-        return pushBack(value);
-      } else {
-        var ins = node(value);
-        node tmp = _vertex;
-        for (var i = 0; i < index; i++) {
-          tmp = tmp._next;
-        }
-        tmp._prev._next = ins;
-        ins._prev = tmp._prev;
-        tmp._prev = ins;
-        ins._next = tmp;
-        _length++;
-        return ins;
-      }
-    } else {
+    if (index < 0 ||
+        (!isEmpty() && index >= length + 1) ||
+        (isEmpty() && index != 0)) {
       return null;
     }
+    if (index == 0) {
+      return pushFront(value);
+    }
+    if (index == _length) {
+      return pushBack(value);
+    }
+    var ins = node(value);
+    node tmp = _vertex;
+    for (var i = 0; i < index; i++) {
+      tmp = tmp._next;
+    }
+    tmp._prev._next = ins;
+    ins._prev = tmp._prev;
+    tmp._prev = ins;
+    ins._next = tmp;
+    _length++;
+    return ins;
   }
 
   node remove(index) {
     if (index < 0 || index >= _length) {
       return null;
     }
-      node tmp = _vertex;
+    node tmp = _vertex;
     if (index == 0) {
       _vertex._next?._prev = null;
       _vertex = _vertex._next;
@@ -156,14 +156,13 @@ class list {
       }
       tmp._next._prev = tmp._prev;
       tmp._prev._next = tmp._next;
-      //tmp = null;
     }
     _length--;
     return tmp;
   }
 
   node removeNode(node lost) {
-    if(lost == null) {
+    if (lost == null) {
       return null;
     }
     if (lost == _vertex) {
@@ -211,6 +210,9 @@ class list {
   }
 
   void clear() {
+    if (isEmpty()) {
+      return;
+    }
     while (_vertex._next != null) {
       _vertex = _vertex._next;
       _vertex._prev = null;
@@ -235,7 +237,7 @@ class list {
     _tale = tmp;
   }
 
-  node operator [](index) {
+  dynamic operator [](index) {
     if (index < 0 || index >= _length) {
       return null;
     }
@@ -243,7 +245,7 @@ class list {
     for (int i = 0; i < index; i++) {
       tmp = tmp._next;
     }
-    return tmp;
+    return tmp._value;
   }
 
   get vertex => _vertex;
