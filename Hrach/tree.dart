@@ -200,8 +200,9 @@ class tree {
     }
     Queue q = new Queue();
     q.push(r);
+    node tmp;
     while (!q.isEmpty()) {
-      node tmp = q.top();
+      tmp = q.top();
       print(tmp.value);
       q.pop();
       if (tmp._left != null) {

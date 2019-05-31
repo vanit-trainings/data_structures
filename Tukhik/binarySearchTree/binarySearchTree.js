@@ -73,10 +73,28 @@ BinarySearchTree.prototype.maxMin = function(node){
    return Math.max(leftHeight, rightHeight) + 1;
 }
 
+BinarySearchTree.prototype.find = function(value) {
+    if (!this.root) {
+        return;
+    } else {
+        let node = this.root;
+        for (node; node !== null;) {
+            if (node.data < value) {
+                node = node.right;
+            } else if (node.data > value) {
+                node = node.left;
+            } else {
+                return node;
+            }
+        }
+        return;
+    }
+}
 
 console.log(bst);
 console.log(bst.minMax(bst.root));
 console.log(bst.maxMin(bst.root));
 console.log(bst.height(bst.root));
+console.log(bst.find(4));
 
 

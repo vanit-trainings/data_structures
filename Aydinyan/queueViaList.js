@@ -178,23 +178,25 @@ queue.prototype.clear = function() {
     this.l.clear();
 }
 
-let q = new queue();
+// let q = new queue();
+// 
+// q.push(1);
+// q.push(2);
+// q.push(3);
+// q.push(4);
+// q.push(5);
+// q.print();
+// q.pop();
+// console.log('size = ' + q.size());
+// q.print();
+// console.log(q.top());
+// console.log(q.isEmpty());
+// q.print();
+// q.clear();
+// console.log(q.isEmpty());
+// q.print();
+// console.log(q.top());
+// q.pop();
+// console.log('size = ' + q.size());
 
-q.push(1);
-q.push(2);
-q.push(3);
-q.push(4);
-q.push(5);
-q.print();
-q.pop();
-console.log('size = ' + q.size());
-q.print();
-console.log(q.top());
-console.log(q.isEmpty());
-q.print();
-q.clear();
-console.log(q.isEmpty());
-q.print();
-console.log(q.top());
-q.pop();
-console.log('size = ' + q.size());
+module.exports = queue();
