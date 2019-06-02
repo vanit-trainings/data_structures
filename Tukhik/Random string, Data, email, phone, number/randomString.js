@@ -32,11 +32,13 @@ function DataTime() {
     return (utc + '/' + data);
    }
 
+   
 function databasa(count, stringLenght, emailStart, emailEnd, len) {
     for(let i = 0; i < count; i++){
         result = '("' + string(stringLenght) + '", ' + '"' + email(emailStart, emailEnd) +'",' +'"' + phone(count) +'",' +  DataTime() +', '+ number(len, count) + ')';	
         console.log(result);		
 	}	
 }
+
 databasa(20, 14, 10, 3, 100);
 
