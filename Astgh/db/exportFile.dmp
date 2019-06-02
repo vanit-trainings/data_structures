@@ -1,0 +1,589 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.8 (Ubuntu 10.8-0ubuntu0.18.04.1)
+-- Dumped by pg_dump version 10.8 (Ubuntu 10.8-0ubuntu0.18.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: beautysalon_worker; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.beautysalon_worker (
+    salon_id integer,
+    worker_id integer
+);
+
+
+ALTER TABLE public.beautysalon_worker OWNER TO postgres;
+
+--
+-- Name: orders; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.orders (
+    orderid integer NOT NULL,
+    user_id integer,
+    worker_id integer,
+    service_id integer,
+    datetime date
+);
+
+
+ALTER TABLE public.orders OWNER TO postgres;
+
+--
+-- Name: orders_orderid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.orders_orderid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.orders_orderid_seq OWNER TO postgres;
+
+--
+-- Name: orders_orderid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.orders_orderid_seq OWNED BY public.orders.orderid;
+
+
+--
+-- Name: profession; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.profession (
+    professionid integer NOT NULL,
+    name character varying(20)
+);
+
+
+ALTER TABLE public.profession OWNER TO postgres;
+
+--
+-- Name: profession_professionid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.profession_professionid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.profession_professionid_seq OWNER TO postgres;
+
+--
+-- Name: profession_professionid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.profession_professionid_seq OWNED BY public.profession.professionid;
+
+
+--
+-- Name: profession_worker; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.profession_worker (
+    worker_id integer,
+    prof_id integer
+);
+
+
+ALTER TABLE public.profession_worker OWNER TO postgres;
+
+--
+-- Name: salon; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.salon (
+    salonid integer NOT NULL,
+    name character varying(20),
+    address character varying(25),
+    avatar character varying(50),
+    email character varying(35),
+    phone character varying(15)
+);
+
+
+ALTER TABLE public.salon OWNER TO postgres;
+
+--
+-- Name: salon_salonid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.salon_salonid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.salon_salonid_seq OWNER TO postgres;
+
+--
+-- Name: salon_salonid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.salon_salonid_seq OWNED BY public.salon.salonid;
+
+
+--
+-- Name: service_worker; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.service_worker (
+    service_id integer,
+    worker_id integer,
+    price integer,
+    duration integer,
+    measurement_unit character varying(10)
+);
+
+
+ALTER TABLE public.service_worker OWNER TO postgres;
+
+--
+-- Name: services; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.services (
+    workid integer NOT NULL,
+    name character varying(35)
+);
+
+
+ALTER TABLE public.services OWNER TO postgres;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    userid integer NOT NULL,
+    firstname character varying(20),
+    lastname character varying(30),
+    birthdate date,
+    avatar character varying(50),
+    email character varying(35),
+    phone character varying(15),
+    login character varying(35),
+    password character varying(16)
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: users_userid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_userid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_userid_seq OWNER TO postgres;
+
+--
+-- Name: users_userid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_userid_seq OWNED BY public.users.userid;
+
+
+--
+-- Name: worker; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.worker (
+    workerid integer NOT NULL,
+    firstname character varying(20),
+    lastname character varying(25),
+    birthdate date,
+    gender character varying(6),
+    email character varying(35),
+    phone character varying(15),
+    avatar character varying(50),
+    login character varying(35),
+    password character varying(35)
+);
+
+
+ALTER TABLE public.worker OWNER TO postgres;
+
+--
+-- Name: worker_workerid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.worker_workerid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.worker_workerid_seq OWNER TO postgres;
+
+--
+-- Name: worker_workerid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.worker_workerid_seq OWNED BY public.worker.workerid;
+
+
+--
+-- Name: works; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.works (
+    worker_works_id integer NOT NULL,
+    worker_id integer,
+    picturepath character varying(50)
+);
+
+
+ALTER TABLE public.works OWNER TO postgres;
+
+--
+-- Name: works_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.works_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.works_id_seq OWNER TO postgres;
+
+--
+-- Name: works_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.works_id_seq OWNED BY public.works.worker_works_id;
+
+
+--
+-- Name: works_workid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.works_workid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.works_workid_seq OWNER TO postgres;
+
+--
+-- Name: works_workid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.works_workid_seq OWNED BY public.services.workid;
+
+
+--
+-- Name: orders orderid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders ALTER COLUMN orderid SET DEFAULT nextval('public.orders_orderid_seq'::regclass);
+
+
+--
+-- Name: profession professionid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.profession ALTER COLUMN professionid SET DEFAULT nextval('public.profession_professionid_seq'::regclass);
+
+
+--
+-- Name: salon salonid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.salon ALTER COLUMN salonid SET DEFAULT nextval('public.salon_salonid_seq'::regclass);
+
+
+--
+-- Name: services workid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.services ALTER COLUMN workid SET DEFAULT nextval('public.works_workid_seq'::regclass);
+
+
+--
+-- Name: users userid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN userid SET DEFAULT nextval('public.users_userid_seq'::regclass);
+
+
+--
+-- Name: worker workerid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.worker ALTER COLUMN workerid SET DEFAULT nextval('public.worker_workerid_seq'::regclass);
+
+
+--
+-- Name: works worker_works_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.works ALTER COLUMN worker_works_id SET DEFAULT nextval('public.works_id_seq'::regclass);
+
+
+--
+-- Name: users myuniqueconstraint; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT myuniqueconstraint UNIQUE (email, login);
+
+
+--
+-- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (orderid);
+
+
+--
+-- Name: profession profession_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.profession
+    ADD CONSTRAINT profession_pkey PRIMARY KEY (professionid);
+
+
+--
+-- Name: salon salon_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.salon
+    ADD CONSTRAINT salon_pkey PRIMARY KEY (salonid);
+
+
+--
+-- Name: worker unique_constraint; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.worker
+    ADD CONSTRAINT unique_constraint UNIQUE (email);
+
+
+--
+-- Name: salon uniqueconstraint; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.salon
+    ADD CONSTRAINT uniqueconstraint UNIQUE (email, phone);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (userid);
+
+
+--
+-- Name: worker worker_login_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.worker
+    ADD CONSTRAINT worker_login_key UNIQUE (login);
+
+
+--
+-- Name: worker worker_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.worker
+    ADD CONSTRAINT worker_pkey PRIMARY KEY (workerid);
+
+
+--
+-- Name: services works_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.services
+    ADD CONSTRAINT works_pkey PRIMARY KEY (workid);
+
+
+--
+-- Name: works works_pkey1; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.works
+    ADD CONSTRAINT works_pkey1 PRIMARY KEY (worker_works_id);
+
+
+--
+-- Name: beautysalon_worker beautysalon_worker_salon_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.beautysalon_worker
+    ADD CONSTRAINT beautysalon_worker_salon_id_fkey FOREIGN KEY (salon_id) REFERENCES public.salon(salonid);
+
+
+--
+-- Name: beautysalon_worker beautysalon_worker_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.beautysalon_worker
+    ADD CONSTRAINT beautysalon_worker_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
+
+
+--
+-- Name: orders orders_service_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_service_id_fkey FOREIGN KEY (service_id) REFERENCES public.services(workid);
+
+
+--
+-- Name: orders orders_service_id_fkey1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_service_id_fkey1 FOREIGN KEY (service_id) REFERENCES public.services(workid);
+
+
+--
+-- Name: orders orders_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(userid);
+
+
+--
+-- Name: orders orders_user_id_fkey1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_user_id_fkey1 FOREIGN KEY (user_id) REFERENCES public.users(userid);
+
+
+--
+-- Name: orders orders_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
+
+
+--
+-- Name: orders orders_worker_id_fkey1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_worker_id_fkey1 FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
+
+
+--
+-- Name: profession_worker profession_worker_prof_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.profession_worker
+    ADD CONSTRAINT profession_worker_prof_id_fkey FOREIGN KEY (prof_id) REFERENCES public.profession(professionid);
+
+
+--
+-- Name: profession_worker profession_worker_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.profession_worker
+    ADD CONSTRAINT profession_worker_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
+
+
+--
+-- Name: service_worker service_worker_service_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.service_worker
+    ADD CONSTRAINT service_worker_service_id_fkey FOREIGN KEY (service_id) REFERENCES public.services(workid);
+
+
+--
+-- Name: service_worker service_worker_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.service_worker
+    ADD CONSTRAINT service_worker_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
+
+
+--
+-- Name: works works_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.works
+    ADD CONSTRAINT works_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
+
+
+--
+-- Name: works works_worker_id_fkey1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.works
+    ADD CONSTRAINT works_worker_id_fkey1 FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
