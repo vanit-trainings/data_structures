@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 const AsciiCodec asc = AsciiCodec();
@@ -104,7 +105,7 @@ String timeGenerator() {
   return s;
 }
 
-String webPageGenerator(){
+String webPageGenerator() {
   String s = 'www.';
   int q = randomNumberInRange(3, 15);
   for (int i = 0; i < q; ++i) {
@@ -124,10 +125,12 @@ String webPageGenerator(){
 }
 
 main(List<String> args) {
-  print(asc.decode([72]));
-  print(emailGenerator());
-  print(phoneGenerator());
-  print(birthDateGenerator());
-  print(timeGenerator());
-  print(addressGenerator());
+  const int size = 1000;
+  File f = File('artadrox.txt');
+  String s;
+  for (int i = 0; i < size; ++i) {
+    s = "insert into producers(name,address,phone,email,web_page) values ('${nameGenerator()}','${addressGenerator()}','${phoneGenerator()}','${emailGenerator()}','${webPageGenerator()}')\n";
+    f.writeAsStringSync(s, mode: FileMode.append);
+  }
+  //////////////////
 }
