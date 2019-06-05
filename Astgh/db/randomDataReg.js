@@ -1,4 +1,5 @@
 const RandExp = require('randexp');
+const file = require('fs');
 
 function name() {
     return new RandExp(/[A-Z][a-z]{1,14}/).gen();
@@ -48,6 +49,10 @@ function email() {
     return new RandExp(/^[a-z][a-z0-9]{7,34}@[a-zA-z]{2,5}[.][a-zA-Z]{2,5}$/).gen();
 }
 
+function gender() {
+    return new RandExp(/[a-z]{4, 6}/).gen();
+}
+
 function write(data) {
     file.appendFileSync('randomData.sql', data, (err) => {
         if (err) {
@@ -60,32 +65,32 @@ let data = '';
 
 //salon
 for (let i = 0; i < 10; i++) {
-    data = "INSERT into salon(name, address, avatar, email, phone) values(" + `'${name()}', '${address()}', '${path()}', '${email()}', '${phone()}'` + ")";
+    data = "INSERT into salon(name, address, avatar, email, phone) values(" + `'${name()}', '${address()}', '${path()}', '${email()}', '${phone()}'` + ");\n";
+    write(data);
 }
-write(data);
 
 //worker
 for (let i = 0; i < 10; i++) {
     data = "INSERT into worker(firstname, lastname, birthDate, gender, email, phone, avatar, login, password) values("
-        + `'${name()}', '${name()}', '${birthDate()}', '${randomString(6)}', '${email()}', '${phone()}', ${path()}', '${email()}', '${password()}'` + ")";
+        + `'${name()}', '${name()}', '${birthDate()}', '${gender()}', '${email()}', '${phone()}', '${path()}', '${password()}', '${password()}'` + ");\n";
+    write(data);
 }
-write(data);
 
 //profession
 for (let i = 0; i < 10; i++) {
-    data = "INSERT into  profession(name) values(" + `'${name()}'` + ")";
+    data = "INSERT into  profession(name) values(" + `'${name()}'` + ");\n";
+    write(data);
 }
-write(data);
 
 //services
 for (let i = 0; i < 10; i++) {
-    data = "INSERT into  services(name) values(" + `'${name()}'` + ")";
+    data = "INSERT into  services(name) values(" + `'${name()}'` + ");\n";
+    write(data);
 }
-write(data);
 
 //users
 for (let i = 0; i < 10; i++) {
     data = "INSERT into users(firstname, lastname, birthDate, gender, avatar, email, phone, login, password) values("
-        + `'${name()}', '${name()}', '${birthDate()}', '${randomString(6)}', ${path()}', '${email()}', '${phone()}', '${email()}', '${password()}'` + ")";
+        + `'${name()}', '${name()}', '${birthDate()}', '${gender()}', '${path()}', '${email()}', '${phone()}', '${password()}', '${password()}'` + ");\n";
+    write(data);
 }
-write(data);
