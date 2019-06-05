@@ -45,38 +45,57 @@ class Tree {
             return;
         }
         let temp = this.root;
+        let parent;
         while (temp.value !== value) {
             if (value > temp.value) {
                 if (temp.right) {
+                    parent = temp;
                     temp = temp.right;
                     continue;
                 }
                 return;
             }else if (value < temp.value) {
                 if (temp.left) {
+                    parent = temp;
                     temp = temp.left;
                     continue;
                 }
                 return;
             }
         }
-        return temp;
+        // console.log(parent,"parent");
+        return {temp,parent};
     }
-    inorder(node = this.root){//achman kargov
+    printInorder(node = this.root){//achman kargov
         if(node !== null) {
-            this.inorder(node.left);
+            this.printInorder(node.left);
             console.log(node.value);
-            this.inorder(node.right);
+            this.printInorder(node.right);
         }
     }
-    pastorder(node = this.root){//nvazman kargov
+    printPastorder(node = this.root){//nvazman kargov
         if(node !== null) {
-            this.pastorder(node.right);
+            this.printPastorder(node.right);
             console.log(node.value);
-            this.pastorder(node.left);
+            this.printPastorder(node.left);
         }
     }
+    remove(value){
+        let wasDeletingNode = this.find(value).temp;
+        let parentNode = this.find(value).parent;
+        //console.log(wasDeletingNode, parentNode);
+        if (!wasDeletingNode.left && !wasDeletingNode.right) {
+            if (parentNode.left === wasDeletingNode) {
+                parentNode.left = null;
+                this.size--;
+            }
+            parentNode.right = null;
+            this.size--;
+            return wasDeletingNode;
+        }else if (!wasDeletingNode.left) {
 
+        }
+    }
 }
 
 

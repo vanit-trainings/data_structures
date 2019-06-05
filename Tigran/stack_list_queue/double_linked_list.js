@@ -29,7 +29,7 @@ class List {
             this.head = newNode
         }
         this.length++;
-        return newNode;//erevi
+        return newNode;
     };
     push_back(value){
         const newNode = new Node(value);
