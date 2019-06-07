@@ -22,11 +22,11 @@ function address() {
 }
 
 function birthDate() {
-    return new RandExp(/\d{4}-\d{2}-\d{2}/).gen();
+    return new RandExp(/[1-2]\d{3}[.][0-1]\d[.][1-3]\d/).gen();
 }
 
 function path() {
-    return new RandExp(/\w{10}[/]\w{10}[/]\w{10}[/]\w{10}[/]\w{10}/).gen();
+    return new RandExp(/\w{8}[/]\w{8}[/]\w{8}[/]\w{8}[/]\w{8}/).gen();
 }
 
 function orderDate() {
@@ -46,7 +46,7 @@ function workHours() {
 }
 
 function email() {
-    return new RandExp(/^[a-z][a-z0-9]{7,34}@[a-zA-z]{2,5}[.][a-zA-Z]{2,5}$/).gen();
+    return new RandExp(/[a-z][a-z0-9._]{1,25}@[a-z0-9]{3,10}\.[a-z]{2,4}/).gen();
 }
 
 function gender() {
@@ -62,6 +62,8 @@ function write(data) {
 }
 
 let data = '';
+//let a = new RandExp(/(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])/).gen();
+console.log(a);
 
 //salon
 for (let i = 0; i < 10; i++) {

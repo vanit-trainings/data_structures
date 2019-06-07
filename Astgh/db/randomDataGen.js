@@ -36,7 +36,7 @@ function name() {
 }
 
 function birthDate() {
-    return (randomNumberFromRange(1950, 2001) + '.' + randomNumberFromRange(1, 12) + '.' + randomNumberFromRange(1, 12));
+    return (randomNumberFromRange(1950, 2001) + '.' + randomNumberFromRange(1, 12) + '.' + randomNumberFromRange(1, 31));
 }
 
 function phone() {
