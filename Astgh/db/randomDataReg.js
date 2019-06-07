@@ -1,5 +1,5 @@
 const RandExp = require('randexp');
-const file = require('fs');
+//const file = require('fs');
 
 function name() {
     return new RandExp(/[A-Z][a-z]{1,14}/).gen();
@@ -22,7 +22,7 @@ function address() {
 }
 
 function birthDate() {
-    return new RandExp(/[1-2]\d{3}[.][0-1]\d[.][1-3]\d/).gen();
+    return new RandExp(/^(1\d{3}|20[0-1][0-9])[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])/).gen();
 }
 
 function path() {
@@ -53,46 +53,49 @@ function gender() {
     return new RandExp(/[a-z]{4, 6}/).gen();
 }
 
-function write(data) {
-    file.appendFileSync('randomData.sql', data, (err) => {
-        if (err) {
-            console.log(err);
-        }
-    });
-}
+console.log(birthDate());
 
-let data = '';
-//let a = new RandExp(/(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])/).gen();
-console.log(a);
-
-//salon
-for (let i = 0; i < 10; i++) {
-    data = "INSERT into salon(name, address, avatar, email, phone) values(" + `'${name()}', '${address()}', '${path()}', '${email()}', '${phone()}'` + ");\n";
-    write(data);
-}
-
-//worker
-for (let i = 0; i < 10; i++) {
-    data = "INSERT into worker(firstname, lastname, birthDate, gender, email, phone, avatar, login, password) values("
-        + `'${name()}', '${name()}', '${birthDate()}', '${gender()}', '${email()}', '${phone()}', '${path()}', '${password()}', '${password()}'` + ");\n";
-    write(data);
-}
-
-//profession
-for (let i = 0; i < 10; i++) {
-    data = "INSERT into  profession(name) values(" + `'${name()}'` + ");\n";
-    write(data);
-}
-
-//services
-for (let i = 0; i < 10; i++) {
-    data = "INSERT into  services(name) values(" + `'${name()}'` + ");\n";
-    write(data);
-}
-
-//users
-for (let i = 0; i < 10; i++) {
-    data = "INSERT into users(firstname, lastname, birthDate, gender, avatar, email, phone, login, password) values("
-        + `'${name()}', '${name()}', '${birthDate()}', '${gender()}', '${path()}', '${email()}', '${phone()}', '${password()}', '${password()}'` + ");\n";
-    write(data);
-}
+//function write(data) {
+//    file.appendFileSync('randomData.sql', data, (err) => {
+//        if (err) {
+//            console.log(err);
+//        }
+//    });
+//}
+//
+//let data = '';
+////let a = new RandExp(/(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])/).gen();
+//console.log(a);
+//
+////salon
+//for (let i = 0; i < 10; i++) {
+//    data = "INSERT into salon(name, address, avatar, email, phone) values(" + `'${name()}', '${address()}', '${path()}', '${email()}', '${phone()}'` + ");\n";
+//    write(data);
+//}
+//
+////worker
+//for (let i = 0; i < 10; i++) {
+//    data = "INSERT into worker(firstname, lastname, birthDate, gender, email, phone, avatar, login, password) values("
+//        + `'${name()}', '${name()}', '${birthDate()}', '${gender()}', '${email()}', '${phone()}', '${path()}', '${password()}', '${password()}'` + ");\n";
+//    write(data);
+//}
+//
+////profession
+//for (let i = 0; i < 10; i++) {
+//    data = "INSERT into  profession(name) values(" + `'${name()}'` + ");\n";
+//    write(data);
+//}
+//
+////services
+//for (let i = 0; i < 10; i++) {
+//    data = "INSERT into  services(name) values(" + `'${name()}'` + ");\n";
+//    write(data);
+//}
+//
+////users
+//for (let i = 0; i < 10; i++) {
+//    data = "INSERT into users(firstname, lastname, birthDate, gender, avatar, email, phone, login, password) values("
+//        + `'${name()}', '${name()}', '${birthDate()}', '${gender()}', '${path()}', '${email()}', '${phone()}', '${password()}', '${password()}'` + ");\n";
+//    write(data);
+//}
+//
