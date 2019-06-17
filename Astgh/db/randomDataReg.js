@@ -1,6 +1,16 @@
 const RandExp = require('randexp');
 const file = require('fs');
 
+function write(data) {
+    file.appendFileSync('randomData.sql', data, (err) => {
+        if (err) {
+            console.log(err);
+        }
+    });
+}
+
+write('BEGIN TRANSACTION;\n');
+
 function name() {
     return new RandExp(/[A-Z][a-z]{1,14}/).gen();
 }
@@ -22,7 +32,7 @@ function address() {
 }
 
 function birthDate() {
-    return new RandExp(/[1-2]\d{3}[.][0-1]\d[.][1-3]\d/).gen();
+    return new RandExp(/^(1\d{3}|20[0-1][0-9])[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])/).gen();
 }
 
 function path() {
@@ -50,20 +60,10 @@ function email() {
 }
 
 function gender() {
-    return new RandExp(/[a-z]{4, 6}/).gen();
-}
-
-function write(data) {
-    file.appendFileSync('randomData.sql', data, (err) => {
-        if (err) {
-            console.log(err);
-        }
-    });
+    return new RandExp(/[a-z]{4,6}/).gen();
 }
 
 let data = '';
-//let a = new RandExp(/(19|20)\d\d([-])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])/).gen();
-console.log(a);
 
 //salon
 for (let i = 0; i < 10; i++) {
@@ -96,3 +96,5 @@ for (let i = 0; i < 10; i++) {
         + `'${name()}', '${name()}', '${birthDate()}', '${gender()}', '${path()}', '${email()}', '${phone()}', '${password()}', '${password()}'` + ");\n";
     write(data);
 }
+
+write('COMMIT TRANSACTION;\n');
