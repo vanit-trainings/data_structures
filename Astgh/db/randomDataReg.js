@@ -1,5 +1,5 @@
 const RandExp = require('randexp');
-const file = require('fs');
+//const file = require('fs');
 
 function write(data) {
     file.appendFileSync('randomData.sql', data, (err) => {
