@@ -1,13 +1,20 @@
 const file = require('fs');
+const RandExp = require('randexp');
 
 let uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 let lowercase = 'abcdefghijklmnopqrstuvwxyz';
 let uppercaseLength = uppercase.length;
 let lowercaseLength = lowercase.length;
 
-let mail = new Set();
+let uCount = 10000;
+let wCount = 400;
+let salonCount = 40;
+let sCount = 20;
+let pCount = 10;
+
+let Email = new Set();
 let Login = new Set();
-let uniquePhone = new Set();
+let Phone = new Set();
 
 function write(data) {
     file.appendFileSync('randomData.sql', data, (err) => {
@@ -32,7 +39,7 @@ function randomString(length) {
     for (let i = 0; i < length; i++) {
         str += lowercase.charAt(Math.floor(Math.random() * lowercaseLength));
     }
-    str += Math.floor(Math.random() * (15 - 5) * 5);
+    //str += Math.floor(Math.random() * (15 - 5) * 5);
     return str;
 }
 
@@ -43,27 +50,31 @@ function name() {
 }
 
 function birthDate() {
-    return (randomNumberFromRange(1950, 2001) + '.' + randomNumberFromRange(1, 12) + '.' + randomNumberFromRange(1, 31));
+    return (randomNumberFromRange(1950, 2001) + '-' + randomNumberFromRange(1, 12) + '-' + randomNumberFromRange(1, 28));
+}
+
+function gender() {
+    return new RandExp(/male|female/).gen();
 }
 
 function phone() {
-    let phone = ('(' + randomNumberFromRange(100, 999) + ') ' + randomNumberFromRange(100, 999) + '-' + randomNumberFromRange(100, 999));
-    if (uniquePhone.has(phone)) {
+    let str = ('(' + randomNumberFromRange(100, 999) + ') ' + randomNumberFromRange(100, 999) + '-' + randomNumberFromRange(100, 999));
+    if (Phone.has(str)) {
         return phone();
     } else {
-        uniquePhone.add(phone);
+        Phone.add(str);
     }
-    return phone;
+    return str;
 }
 
 function email() {
-    let email = randomString(14) + randomNumber(9999) + '@' + randomString(5) + '.' + randomString(5);
-    if (mail.has(email)) {
+    let str = randomString(10) + randomNumberFromRange(1, 10000) + '@' + randomString(5) + '.' + randomString(5);
+    if (Email.has(str)) {
         return email();
     } else {
-        mail.add(email);
+        Email.add(str);
     }
-    return email;
+    return str;
 }
 
 function address() {
@@ -85,21 +96,21 @@ function path() {
 }
 
 function login() {
-    let login = '';
+    let str = '';
     for (let i = 0; i < 10; i++) {
-        login += lowercase.charAt(Math.floor(Math.random() * lowercaseLength));
+        str += lowercase.charAt(Math.floor(Math.random() * lowercaseLength));
     }
-    login += Math.floor(Math.random() * (15 - 5) * 5);
-    if (Login.has(login)) {
+    str += Math.floor(Math.random() * (15 - 5) * 5);
+    if (Login.has(str)) {
         return login();
     } else {
-        Login.add(login);
+        Login.add(str);
     }
-    return login;
+    return str;
 }
 
 function password() {
-    return randomString(12) + randomNumber(9999);
+    return randomString(10) + randomNumber(9999);
 }
 
 function price() {
@@ -107,88 +118,83 @@ function price() {
 }
 
 function orderDate() {
-    let orderDate = randomNumber(31) + '.' + randomNumber(12) + '.' + randomNumberFromRange(2018, 2021);
-    orderDate += ' ' + randomNumber(24) + ':' + randomNumber(59);
+    let orderDate = randomNumberFromRange(2017, 2018) + '-' + randomNumberFromRange(1, 12) + '-' + randomNumberFromRange(1, 28);
+    //orderDate += ' ' + randomNumberFromRange(1, 18) + ':' + randomNumber(59);
     return orderDate;
 }
 
 function duration() {
-    return randomNumber(60);
+    return randomNumberFromRange(10, 60);
 }
 
 function unitOfMeasurement() {
     return randomString(7);
 }
 
-function workHours() {
-    return randomNumber(24) + ':' + randomNumber(59) + ' - ' + randomNumber(24) + ':' + randomNumber(59);
-}
-
-function randomId() {
-    return randomNumberFromRange(1, 100);
+function randomId(max) {
+    return randomNumberFromRange(1, max);
 }
 
 let data = '';
 
 //salon
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < salonCount; i++) {
     data = `INSERT into salon(name, address, avatar, email, phone) values('${name()}', '${address()}', '${path()}', '${email()}', '${phone()}');\n`;
     write(data);
 }
 
 //worker
-for (let i = 0; i < 10; i++) {
-    data = `INSERT into worker(firstname, lastname, birthDate, gender, email, phone, avatar, login, password) values(
-        '${name()}', '${name()}', '${birthDate()}', '${randomString(6)}', '${email()}', '${phone()}', '${path()}', '${login()}', '${password()}');\n`;
+for (let i = 0; i < wCount; i++) {
+    data = `INSERT into worker(firstname, lastname, birthDate, gender, email, phone, avatar, login, password) values('${name()}', '${name()}', '${birthDate()}', '${gender()}', '${email()}', '${phone()}', '${path()}', '${login()}', '${password()}');\n`;
     write(data);
 }
 
 //profession
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < pCount; i++) {
     data = `INSERT into  profession(name) values('${name()}');\n`;
     write(data);
 }
 
 //services
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < sCount; i++) {
     data = `INSERT into  services(name) values('${name()}');\n`;
     write(data);
 }
 
 //users
-for (let i = 0; i < 10; i++) {
-    data = `INSERT into users(firstname, lastname, birthDate, gender, avatar, email, phone, login, password) values('${name()}', '${name()}', '${birthDate()}', '${randomString(6)}', '${path()}', '${email()}', '${phone()}', '${login()}', '${password()}');\n`;
+for (let i = 0; i < uCount; i++) {
+    data = `INSERT into users(firstname, lastname, birthDate, gender, avatar, email, phone, login, password) values('${name()}', '${name()}', '${birthDate()}', '${gender()}', '${path()}', '${email()}', '${phone()}', '${login()}', '${password()}');\n`;
     write(data);
 }
 
-//beautysalon_worker
-for (let i = 0; i < 10; i++) {
-    data = `INSERT into beautysalon_worker(salon_id, worker_id) values('${randomId()}', '${randomId()}')\n`;
+// salon_worker
+for (let i = 0; i < wCount; i++) {
+    data = `INSERT into salon_worker(salon_id, worker_id) values(${randomId(salonCount)}, ${randomId(wCount)});\n`;
     write(data);
 }
 
 //profession_worker
-for (let i = 0; i < 10; i++) {
-    data = `INSERT into profession_worker(worker_id, prof_id) values('${randomId()}', '${randomId()}')\n`;
+for (let i = 0; i < wCount; i++) {
+    data = `INSERT into profession_worker(worker_id, prof_id) values(${randomId(wCount)}, ${randomId(pCount)});\n`;
     write(data);
 }
 
 //service_worker
-for (let i = 0; i < 10; i++) {
-    data = `INSERT into service_worker(service_id, worker_id, price, duration, measurement_unit) values('${randomId()}', '${randomId()}', '${price()}', '${duration()}', '${unitOfMeasurement()}')\n`;
+for (let i = 0; i < wCount; i++) {
+    data = `INSERT into service_worker(service_id, worker_id, price, duration, measurment_unit) values(${randomId(sCount)}, ${randomId(wCount)}, ${price()}, ${duration()}, '${unitOfMeasurement()}');\n`;
     write(data);
 }
 
 //works
-for (let i = 0; i < 10; i++) {
-    data = `INSERT into works(worker_id, picturepath) values('${randomId()}', '${path()}'))\n`;
+for (let i = 0; i < wCount; i++) {
+    data = `INSERT into works(worker_id, path) values(${randomId(wCount)}, '${path()}');\n`;
     write(data);
 }
 
-//orders
-for (let i = 0; i < 10; i++) {
-    data = `INSERT into orders(user_id, worker_id, service_id, datetime) values('${randomId()}', '${randomId()}', '${randomId()}', '${orderDate()}')\n`;
-    write(data);
+// orders
+for (let i = 0; i < 10000; i++) {
+  data = `INSERT into orders(user_id, worker_id, service_id, datetime) values(${randomId(uCount)}, ${randomId(wCount)}, ${randomId(sCount)}, '${orderDate()}');\n`;
+  write(data);
 }
 
 write('COMMIT TRANSACTION;\n');

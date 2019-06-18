@@ -35,23 +35,10 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: beautysalon_worker; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.beautysalon_worker (
-    salon_id integer,
-    worker_id integer
-);
-
-
-ALTER TABLE public.beautysalon_worker OWNER TO postgres;
-
---
 -- Name: orders; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.orders (
-    orderid integer NOT NULL,
     user_id integer,
     worker_id integer,
     service_id integer,
@@ -62,44 +49,22 @@ CREATE TABLE public.orders (
 ALTER TABLE public.orders OWNER TO postgres;
 
 --
--- Name: orders_orderid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.orders_orderid_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.orders_orderid_seq OWNER TO postgres;
-
---
--- Name: orders_orderid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.orders_orderid_seq OWNED BY public.orders.orderid;
-
-
---
 -- Name: profession; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.profession (
-    professionid integer NOT NULL,
-    name character varying(20)
+    id integer NOT NULL,
+    name character varying(15)
 );
 
 
 ALTER TABLE public.profession OWNER TO postgres;
 
 --
--- Name: profession_professionid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: profession_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.profession_professionid_seq
+CREATE SEQUENCE public.profession_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -108,13 +73,13 @@ CREATE SEQUENCE public.profession_professionid_seq
     CACHE 1;
 
 
-ALTER TABLE public.profession_professionid_seq OWNER TO postgres;
+ALTER TABLE public.profession_id_seq OWNER TO postgres;
 
 --
--- Name: profession_professionid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: profession_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.profession_professionid_seq OWNED BY public.profession.professionid;
+ALTER SEQUENCE public.profession_id_seq OWNED BY public.profession.id;
 
 
 --
@@ -134,9 +99,9 @@ ALTER TABLE public.profession_worker OWNER TO postgres;
 --
 
 CREATE TABLE public.salon (
-    salonid integer NOT NULL,
-    name character varying(20),
-    address character varying(25),
+    id integer NOT NULL,
+    name character varying(30),
+    address character varying(50),
     avatar character varying(50),
     email character varying(35),
     phone character varying(15)
@@ -146,10 +111,10 @@ CREATE TABLE public.salon (
 ALTER TABLE public.salon OWNER TO postgres;
 
 --
--- Name: salon_salonid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: salon_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.salon_salonid_seq
+CREATE SEQUENCE public.salon_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -158,14 +123,26 @@ CREATE SEQUENCE public.salon_salonid_seq
     CACHE 1;
 
 
-ALTER TABLE public.salon_salonid_seq OWNER TO postgres;
+ALTER TABLE public.salon_id_seq OWNER TO postgres;
 
 --
--- Name: salon_salonid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: salon_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.salon_salonid_seq OWNED BY public.salon.salonid;
+ALTER SEQUENCE public.salon_id_seq OWNED BY public.salon.id;
 
+
+--
+-- Name: salon_worker; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.salon_worker (
+    salon_id integer,
+    worker_id integer
+);
+
+
+ALTER TABLE public.salon_worker OWNER TO postgres;
 
 --
 -- Name: service_worker; Type: TABLE; Schema: public; Owner: postgres
@@ -176,7 +153,7 @@ CREATE TABLE public.service_worker (
     worker_id integer,
     price integer,
     duration integer,
-    measurement_unit character varying(10)
+    measurment_unit character varying(10)
 );
 
 
@@ -187,26 +164,49 @@ ALTER TABLE public.service_worker OWNER TO postgres;
 --
 
 CREATE TABLE public.services (
-    workid integer NOT NULL,
-    name character varying(35)
+    id integer NOT NULL,
+    name character varying(20)
 );
 
 
 ALTER TABLE public.services OWNER TO postgres;
 
 --
+-- Name: services_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.services_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.services_id_seq OWNER TO postgres;
+
+--
+-- Name: services_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.services_id_seq OWNED BY public.services.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.users (
-    userid integer NOT NULL,
+    id integer NOT NULL,
     firstname character varying(20),
-    lastname character varying(30),
+    lastname character varying(25),
     birthdate date,
+    gender character varying(6),
     avatar character varying(50),
     email character varying(35),
     phone character varying(15),
-    login character varying(35),
+    login character varying(15),
     password character varying(16)
 );
 
@@ -214,10 +214,10 @@ CREATE TABLE public.users (
 ALTER TABLE public.users OWNER TO postgres;
 
 --
--- Name: users_userid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.users_userid_seq
+CREATE SEQUENCE public.users_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -226,13 +226,13 @@ CREATE SEQUENCE public.users_userid_seq
     CACHE 1;
 
 
-ALTER TABLE public.users_userid_seq OWNER TO postgres;
+ALTER TABLE public.users_id_seq OWNER TO postgres;
 
 --
--- Name: users_userid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.users_userid_seq OWNED BY public.users.userid;
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
@@ -240,7 +240,7 @@ ALTER SEQUENCE public.users_userid_seq OWNED BY public.users.userid;
 --
 
 CREATE TABLE public.worker (
-    workerid integer NOT NULL,
+    id integer NOT NULL,
     firstname character varying(20),
     lastname character varying(25),
     birthdate date,
@@ -248,18 +248,18 @@ CREATE TABLE public.worker (
     email character varying(35),
     phone character varying(15),
     avatar character varying(50),
-    login character varying(35),
-    password character varying(35)
+    login character varying(15),
+    password character varying(16)
 );
 
 
 ALTER TABLE public.worker OWNER TO postgres;
 
 --
--- Name: worker_workerid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: worker_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.worker_workerid_seq
+CREATE SEQUENCE public.worker_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -268,13 +268,13 @@ CREATE SEQUENCE public.worker_workerid_seq
     CACHE 1;
 
 
-ALTER TABLE public.worker_workerid_seq OWNER TO postgres;
+ALTER TABLE public.worker_id_seq OWNER TO postgres;
 
 --
--- Name: worker_workerid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: worker_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.worker_workerid_seq OWNED BY public.worker.workerid;
+ALTER SEQUENCE public.worker_id_seq OWNED BY public.worker.id;
 
 
 --
@@ -282,121 +282,54 @@ ALTER SEQUENCE public.worker_workerid_seq OWNED BY public.worker.workerid;
 --
 
 CREATE TABLE public.works (
-    worker_works_id integer NOT NULL,
     worker_id integer,
-    picturepath character varying(50)
+    path character varying(70)
 );
 
 
 ALTER TABLE public.works OWNER TO postgres;
 
 --
--- Name: works_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: profession id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.works_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.works_id_seq OWNER TO postgres;
-
---
--- Name: works_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.works_id_seq OWNED BY public.works.worker_works_id;
+ALTER TABLE ONLY public.profession ALTER COLUMN id SET DEFAULT nextval('public.profession_id_seq'::regclass);
 
 
 --
--- Name: works_workid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: salon id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.works_workid_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.works_workid_seq OWNER TO postgres;
-
---
--- Name: works_workid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.works_workid_seq OWNED BY public.services.workid;
+ALTER TABLE ONLY public.salon ALTER COLUMN id SET DEFAULT nextval('public.salon_id_seq'::regclass);
 
 
 --
--- Name: orders orderid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: services id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.orders ALTER COLUMN orderid SET DEFAULT nextval('public.orders_orderid_seq'::regclass);
-
-
---
--- Name: profession professionid; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.profession ALTER COLUMN professionid SET DEFAULT nextval('public.profession_professionid_seq'::regclass);
+ALTER TABLE ONLY public.services ALTER COLUMN id SET DEFAULT nextval('public.services_id_seq'::regclass);
 
 
 --
--- Name: salon salonid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.salon ALTER COLUMN salonid SET DEFAULT nextval('public.salon_salonid_seq'::regclass);
-
-
---
--- Name: services workid; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.services ALTER COLUMN workid SET DEFAULT nextval('public.works_workid_seq'::regclass);
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
--- Name: users userid; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: worker id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.users ALTER COLUMN userid SET DEFAULT nextval('public.users_userid_seq'::regclass);
-
-
---
--- Name: worker workerid; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.worker ALTER COLUMN workerid SET DEFAULT nextval('public.worker_workerid_seq'::regclass);
+ALTER TABLE ONLY public.worker ALTER COLUMN id SET DEFAULT nextval('public.worker_id_seq'::regclass);
 
 
 --
--- Name: works worker_works_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: profession profession_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.works ALTER COLUMN worker_works_id SET DEFAULT nextval('public.works_id_seq'::regclass);
-
-
---
--- Name: users myuniqueconstraint; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT myuniqueconstraint UNIQUE (email, login);
-
-
---
--- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT orders_pkey PRIMARY KEY (orderid);
+ALTER TABLE ONLY public.profession
+    ADD CONSTRAINT profession_name_key UNIQUE (name);
 
 
 --
@@ -404,7 +337,31 @@ ALTER TABLE ONLY public.orders
 --
 
 ALTER TABLE ONLY public.profession
-    ADD CONSTRAINT profession_pkey PRIMARY KEY (professionid);
+    ADD CONSTRAINT profession_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: salon salon_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.salon
+    ADD CONSTRAINT salon_email_key UNIQUE (email);
+
+
+--
+-- Name: salon salon_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.salon
+    ADD CONSTRAINT salon_name_key UNIQUE (name);
+
+
+--
+-- Name: salon salon_phone_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.salon
+    ADD CONSTRAINT salon_phone_key UNIQUE (phone);
 
 
 --
@@ -412,23 +369,31 @@ ALTER TABLE ONLY public.profession
 --
 
 ALTER TABLE ONLY public.salon
-    ADD CONSTRAINT salon_pkey PRIMARY KEY (salonid);
+    ADD CONSTRAINT salon_pkey PRIMARY KEY (id);
 
 
 --
--- Name: worker unique_constraint; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: services services_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.worker
-    ADD CONSTRAINT unique_constraint UNIQUE (email);
+ALTER TABLE ONLY public.services
+    ADD CONSTRAINT services_pkey PRIMARY KEY (id);
 
 
 --
--- Name: salon uniqueconstraint; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.salon
-    ADD CONSTRAINT uniqueconstraint UNIQUE (email, phone);
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- Name: users users_login_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_login_key UNIQUE (login);
 
 
 --
@@ -436,7 +401,15 @@ ALTER TABLE ONLY public.salon
 --
 
 ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (userid);
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: worker worker_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.worker
+    ADD CONSTRAINT worker_email_key UNIQUE (email);
 
 
 --
@@ -452,39 +425,7 @@ ALTER TABLE ONLY public.worker
 --
 
 ALTER TABLE ONLY public.worker
-    ADD CONSTRAINT worker_pkey PRIMARY KEY (workerid);
-
-
---
--- Name: services works_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.services
-    ADD CONSTRAINT works_pkey PRIMARY KEY (workid);
-
-
---
--- Name: works works_pkey1; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.works
-    ADD CONSTRAINT works_pkey1 PRIMARY KEY (worker_works_id);
-
-
---
--- Name: beautysalon_worker beautysalon_worker_salon_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.beautysalon_worker
-    ADD CONSTRAINT beautysalon_worker_salon_id_fkey FOREIGN KEY (salon_id) REFERENCES public.salon(salonid);
-
-
---
--- Name: beautysalon_worker beautysalon_worker_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.beautysalon_worker
-    ADD CONSTRAINT beautysalon_worker_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
+    ADD CONSTRAINT worker_pkey PRIMARY KEY (id);
 
 
 --
@@ -492,15 +433,7 @@ ALTER TABLE ONLY public.beautysalon_worker
 --
 
 ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT orders_service_id_fkey FOREIGN KEY (service_id) REFERENCES public.services(workid);
-
-
---
--- Name: orders orders_service_id_fkey1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT orders_service_id_fkey1 FOREIGN KEY (service_id) REFERENCES public.services(workid);
+    ADD CONSTRAINT orders_service_id_fkey FOREIGN KEY (service_id) REFERENCES public.services(id);
 
 
 --
@@ -508,15 +441,7 @@ ALTER TABLE ONLY public.orders
 --
 
 ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT orders_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(userid);
-
-
---
--- Name: orders orders_user_id_fkey1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT orders_user_id_fkey1 FOREIGN KEY (user_id) REFERENCES public.users(userid);
+    ADD CONSTRAINT orders_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -524,15 +449,7 @@ ALTER TABLE ONLY public.orders
 --
 
 ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT orders_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
-
-
---
--- Name: orders orders_worker_id_fkey1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT orders_worker_id_fkey1 FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
+    ADD CONSTRAINT orders_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(id);
 
 
 --
@@ -540,7 +457,7 @@ ALTER TABLE ONLY public.orders
 --
 
 ALTER TABLE ONLY public.profession_worker
-    ADD CONSTRAINT profession_worker_prof_id_fkey FOREIGN KEY (prof_id) REFERENCES public.profession(professionid);
+    ADD CONSTRAINT profession_worker_prof_id_fkey FOREIGN KEY (prof_id) REFERENCES public.profession(id);
 
 
 --
@@ -548,7 +465,23 @@ ALTER TABLE ONLY public.profession_worker
 --
 
 ALTER TABLE ONLY public.profession_worker
-    ADD CONSTRAINT profession_worker_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
+    ADD CONSTRAINT profession_worker_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(id);
+
+
+--
+-- Name: salon_worker salon_worker_salon_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.salon_worker
+    ADD CONSTRAINT salon_worker_salon_id_fkey FOREIGN KEY (salon_id) REFERENCES public.salon(id);
+
+
+--
+-- Name: salon_worker salon_worker_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.salon_worker
+    ADD CONSTRAINT salon_worker_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(id);
 
 
 --
@@ -556,7 +489,7 @@ ALTER TABLE ONLY public.profession_worker
 --
 
 ALTER TABLE ONLY public.service_worker
-    ADD CONSTRAINT service_worker_service_id_fkey FOREIGN KEY (service_id) REFERENCES public.services(workid);
+    ADD CONSTRAINT service_worker_service_id_fkey FOREIGN KEY (service_id) REFERENCES public.services(id);
 
 
 --
@@ -564,7 +497,7 @@ ALTER TABLE ONLY public.service_worker
 --
 
 ALTER TABLE ONLY public.service_worker
-    ADD CONSTRAINT service_worker_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
+    ADD CONSTRAINT service_worker_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(id);
 
 
 --
@@ -572,15 +505,7 @@ ALTER TABLE ONLY public.service_worker
 --
 
 ALTER TABLE ONLY public.works
-    ADD CONSTRAINT works_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
-
-
---
--- Name: works works_worker_id_fkey1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.works
-    ADD CONSTRAINT works_worker_id_fkey1 FOREIGN KEY (worker_id) REFERENCES public.worker(workerid);
+    ADD CONSTRAINT works_worker_id_fkey FOREIGN KEY (worker_id) REFERENCES public.worker(id);
 
 
 --

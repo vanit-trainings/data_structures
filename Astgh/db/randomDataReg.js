@@ -1,15 +1,15 @@
 const RandExp = require('randexp');
 //const file = require('fs');
 
-function write(data) {
-    file.appendFileSync('randomData.sql', data, (err) => {
-        if (err) {
-            console.log(err);
-        }
-    });
-}
-
-write('BEGIN TRANSACTION;\n');
+//function write(data) {
+//    file.appendFileSync('randomData.sql', data, (err) => {
+//        if (err) {
+//            console.log(err);
+//        }
+//    });
+//}
+//
+//write('BEGIN TRANSACTION;\n');
 
 function name() {
     return new RandExp(/[A-Z][a-z]{1,14}/).gen();
@@ -60,41 +60,43 @@ function email() {
 }
 
 function gender() {
-    return new RandExp(/[a-z]{4,6}/).gen();
+    return new RandExp(/male|female/).gen();
 }
 
-let data = '';
+console.log(gender());
 
-//salon
-for (let i = 0; i < 10; i++) {
-    data = "INSERT into salon(name, address, avatar, email, phone) values(" + `'${name()}', '${address()}', '${path()}', '${email()}', '${phone()}'` + ");\n";
-    write(data);
-}
-
-//worker
-for (let i = 0; i < 10; i++) {
-    data = "INSERT into worker(firstname, lastname, birthDate, gender, email, phone, avatar, login, password) values("
-        + `'${name()}', '${name()}', '${birthDate()}', '${gender()}', '${email()}', '${phone()}', '${path()}', '${password()}', '${password()}'` + ");\n";
-    write(data);
-}
-
-//profession
-for (let i = 0; i < 10; i++) {
-    data = "INSERT into  profession(name) values(" + `'${name()}'` + ");\n";
-    write(data);
-}
-
-//services
-for (let i = 0; i < 10; i++) {
-    data = "INSERT into  services(name) values(" + `'${name()}'` + ");\n";
-    write(data);
-}
-
-//users
-for (let i = 0; i < 10; i++) {
-    data = "INSERT into users(firstname, lastname, birthDate, gender, avatar, email, phone, login, password) values("
-        + `'${name()}', '${name()}', '${birthDate()}', '${gender()}', '${path()}', '${email()}', '${phone()}', '${password()}', '${password()}'` + ");\n";
-    write(data);
-}
-
-write('COMMIT TRANSACTION;\n');
+//let data = '';
+//
+////salon
+//for (let i = 0; i < 10; i++) {
+//    data = "INSERT into salon(name, address, avatar, email, phone) values(" + `'${name()}', '${address()}', '${path()}', '${email()}', '${phone()}'` + ");\n";
+//    write(data);
+//}
+//
+////worker
+//for (let i = 0; i < 10; i++) {
+//    data = "INSERT into worker(firstname, lastname, birthDate, gender, email, phone, avatar, login, password) values("
+//        + `'${name()}', '${name()}', '${birthDate()}', '${gender()}', '${email()}', '${phone()}', '${path()}', '${password()}', '${password()}'` + ");\n";
+//    write(data);
+//}
+//
+////profession
+//for (let i = 0; i < 10; i++) {
+//    data = "INSERT into  profession(name) values(" + `'${name()}'` + ");\n";
+//    write(data);
+//}
+//
+////services
+//for (let i = 0; i < 10; i++) {
+//    data = "INSERT into  services(name) values(" + `'${name()}'` + ");\n";
+//    write(data);
+//}
+//
+////users
+//for (let i = 0; i < 10; i++) {
+//    data = "INSERT into users(firstname, lastname, birthDate, gender, avatar, email, phone, login, password) values("
+//        + `'${name()}', '${name()}', '${birthDate()}', '${gender()}', '${path()}', '${email()}', '${phone()}', '${password()}', '${password()}'` + ");\n";
+//    write(data);
+//}
+//
+//write('COMMIT TRANSACTION;\n');
